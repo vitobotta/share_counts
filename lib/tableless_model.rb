@@ -1,20 +1,11 @@
 require "validatable"
-require File.expand_path(File.join(File.dirname(__FILE__), "tableless_model/class_methods"))
+require File.expand_path(File.join(File.dirname(__FILE__), "activerecord/base/class_methods"))
 
 
 # TODO: add support for associations
 
 module ActiveRecord
   
-  # Extending ActiveRecord::Base class with a macro required by the Tableless model,
-  # and another one that can be used to serialize a tableless model instance into
-  # a parent object's column
-
-  Base.extend TablelessModel::ClassMethods
-  
-    
-
-
   # TablelessModel class is basically an Hash with method-like keys that must be defined in advance
   # as for an ActiveRecord model, but without a table. Trying to set new keys not defined at class level
   # result in NoMethodError raised 
