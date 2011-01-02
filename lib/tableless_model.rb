@@ -163,7 +163,6 @@ module ActiveRecord
           when :integer   then (value.is_a?(Integer) ? value : Integer(value))
           when :float     then (value.is_a?(Float) ? value : Float(value))
           when :decimal   then (value.is_a?(Float) ? value : Float(value))
-          when :timestamp then string_to_time(value)
           when :time      then (value.is_a?(Time) ? value : Time.parse(value))
           when :date      then (value.is_a?(Date) ? value : Date.parse(value))
           when :datetime  then (value.is_a?(DateTime) ? value : DateTime.parse(value))
