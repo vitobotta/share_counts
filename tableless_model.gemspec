@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Vito Botta"]
   s.email       = ["vito@botta.name"]
   s.homepage    = "http://rubygems.org/gems/tableless_model"
-  s.summary     = %q{A serialisable, table-less model for ActiveRecord useful to store settings, options, etc in a parent object}
-  s.description = %q{A serialisable, table-less model for ActiveRecord useful to store settings, options, etc in a parent object}
+  s.summary     = %q{A serialisable and validatable table-less model with support for associations, useful to store settings, options, etc in a serialized form in a parent object}
+  s.description = %q{A serialisable and validatable table-less model with support for associations, useful to store settings, options, etc in a serialized form in a parent object}
 
   s.add_dependency "hashie"
   s.add_dependency "validatable"

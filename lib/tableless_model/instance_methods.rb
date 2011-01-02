@@ -12,8 +12,8 @@ module Tableless
     def initialize(init_attributes = {}, &block)
       super &block
 
-      self.class.attributes.each_pair {|attribute_name, options| self[attribute_name] = options[:default]}
-      init_attributes.each_pair {|k,v| self[k] = v} if init_attributes
+      self.class.attributes.each_pair {|attribute_name, options| self.send("#{attribute_name}=", options[:default])}
+      init_attributes.each_pair {|k,v| self.send("#{k}=", v)} if init_attributes
     end
 
 

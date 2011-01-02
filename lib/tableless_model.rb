@@ -3,8 +3,6 @@ require File.expand_path(File.join(File.dirname(__FILE__), "activerecord/base/cl
 
 Dir[File.join(File.dirname(__FILE__), "tableless_model/*rb")].each {|f| require File.expand_path(f)}
 
-# TODO: add support for associations
-
 module ActiveRecord
   
   # TablelessModel class is basically an Hash with method-like keys that must be defined in advance
@@ -13,6 +11,9 @@ module ActiveRecord
 
   class TablelessModel < Hash
 
+    extend   Tableless::ClassMethods
+    include  Tableless::InstanceMethods
+    
     # 
     # 
     # Exposes an accessors that will store the names of the attributes defined for the Tableless model,
@@ -27,5 +28,3 @@ module ActiveRecord
   end
 end
 
-ActiveRecord::TablelessModel.extend   Tableless::ClassMethods
-ActiveRecord::TablelessModel.include  Tableless::InstanceMethods
