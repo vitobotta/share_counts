@@ -37,7 +37,8 @@ For example's sake, say we have these two models:
 
 			set_table_name "seo_options"
 
-			# having columns such as id, title_tag, meta_description, meta_keywords, noindex, nofollow, noarchive, page_id
+			# having columns such as 	id, title_tag, meta_description, meta_keywords, 
+			# 												noindex, nofollow, noarchive, page_id
 
 			belongs_to :page
 
