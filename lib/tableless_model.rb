@@ -1,0 +1,3 @@
+module TablelessModel
+  # Your code goes here...
+end
