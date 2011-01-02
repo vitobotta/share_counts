@@ -30,7 +30,7 @@ module TablelessModel
   
         class_eval do
           default_value_for class_name => class_type.new 
-          serialize class_name, Hashie::Mash
+          serialize class_name, ActiveRecord::TablelessModel
 
           define_method class_name.to_s do
             class_type.new(read_attribute(class_name.to_sym) || {})

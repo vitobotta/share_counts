@@ -4,22 +4,55 @@ require File.expand_path(File.join(File.dirname(__FILE__), "tableless_model/clas
 
 module ActiveRecord
   
+  # Extending ActiveRecord::Base class with a macro required by the Tableless model,
+  # and another one that can be used to serialize a tableless model instance into
+  # a parent object's column
+
   Base.extend TablelessModel::ClassMethods
   
+    
+
+
+  # TablelessModel class is basically an Hash with method-like keys that must be defined in advance
+  # as for an ActiveRecord model, but without a table. Trying to set new keys not defined at class level
+  # result in NoMethodError raised 
+
   class TablelessModel < Hash
-    
-    alias_method :to_s, :inspect
-    
+
+    # 
+    # 
+    # Exposes an accessors that will store the names of the attributes defined for the Tableless model,
+    # and their default values
+    # This accessor is an instance of Set defined in the inheriting class (see self.inherited)
+    # 
+    # 
     class << self
-      attr_reader :attribute_names, :default_values
+      attr_reader :attributes
     end
 
+
+    # 
+    # 
+    # Macro to define an attribute of the Tableless model.
+    # To be used as follows in a tableless model:
+    # 
+    #     class Example < ActiveRecord::TablelessModel
+    # 
+    #       attribute :name,    :type => :string
+    #       attribute :active,  :type => :boolean, :default => true
+    # 
+    #     end
+    # 
+    # 
     def self.attribute(name, options = {})
+      # Stringifies all keys... uses a little more memory but it's a bit easier to handle keys internally...
       attribute_name = name.to_s
       
-      self.attribute_names << attribute_name
-      self.default_values[attribute_name] = options[:default] 
+      # Defining the new attribute for the tableless model
+      self.attributes[attribute_name] = options[:default] 
       
+      # Defining method-like getter and setter for the new attribute
+      # so it can be used like a regular object's property
       class_eval %Q{
         def #{attribute_name}
           self["#{attribute_name}"]
@@ -31,44 +64,78 @@ module ActiveRecord
       }
     end
     
+    
+    # 
+    # 
+    # Initialises @attributes in the context of the class inheriting from the Tableless model
+    # 
     def self.inherited(klass)
       super
-      
       (@subclasses ||= Set.new) << klass
-      
-      klass.instance_variable_set("@attribute_names", Set.new)
-      klass.instance_variable_set("@default_values",  Hash.new)
+      klass.instance_variable_set("@attributes",  Hash.new)
     end
     
     
-    
+    # 
+    # 
+    # On initialising an instance of a tableless model,
+    # sets the default values for all the attributes defined.
+    # Optionally, initialises the tableless model with the values 
+    # specified as arguments, instead, overriding the default values
+    # 
+    # 
     def initialize(init_attributes = {}, &block)
       super &block
 
-      self.class.attribute_names.each {|k| self[k] = self.class.default_values[k]}
-      init_attributes.each_pair {|k,v| puts k; self[k] = v} if init_attributes
+      self.class.attributes.each_pair {|k,v | self[k] = v}
+      init_attributes.each_pair {|k,v| self[k] = v} if init_attributes
     end
 
-    def id
-      self["id"] || super
-    end
-    
+
+    # 
+    # 
+    # Returns true if the method name specified corresponds 
+    # to the key of an attribute defined for the tableless model
+    # 
+    # 
     def respond_to?(method_name)
       key?(method_name) ? true : super
     end
     
-    
+
+    # 
+    # 
+    # Overriding getter for the underlying hash keys
+    # so that only the defined attributes can be read 
+    # 
     def [](attribute_name)
-      raise NoMethodError, "The attribute #{attribute_name} is undefined" unless self.class.attribute_names.include? attribute_name.to_s
+      raise NoMethodError, "The attribute #{attribute_name} is undefined" unless self.class.attributes.has_key? attribute_name.to_s
       super attribute_name.to_s
     end
     
+
+    # 
+    # 
+    # Overriding setter for the underlying hash keys
+    # so that only the defined attributes can be set
+    # 
     def []=(attribute_name, value)
-      raise NoMethodError, "The attribute #{attribute_name} is undefined" unless self.class.attribute_names.include? attribute_name.to_s
+      raise NoMethodError, "The attribute #{attribute_name} is undefined" unless self.class.attributes.has_key? attribute_name.to_s
       super attribute_name.to_s, value
     end
     
     
+    # 
+    # 
+    # The Hash object displays inspect information in the format
+    # 
+    #   "{:a=>1, :b=>2}"
+    # 
+    # to make the tableless model look a bit more like regular models,
+    # it shows instead the inspect information in this format:
+    # 
+    #   "<#MyTablelessModel a=1 b=2>"
+    # 
     def inspect
       "<##{self.class.to_s}" << self.keys.inject(""){|result, k| result << " #{k}=#{self[k].inspect}"; result }  << ">"
     end
@@ -80,15 +147,8 @@ end
 
 # module ActiveRecord
 #   
-#   # Extending ActiveRecord::Base class with a macro required by the Tableless model,
-#   # and another one that can be used to serialize a tableless model instance into
-#   # a parent object's column
-#   Base.extend TablelessModel::ClassMethods
 #   
 #   class TablelessModel < Hashie::Mash
-#     # TablelessModel class is basically an Hash which with method-like keys
-#     # It currently uses Hashie::Mash for this functionality
-#     # TODO: Remove dependency on Hashie::Mash
 #     
 #     
 #     # Using the gem validatable to add validations support as for table based ActiveRecord models
