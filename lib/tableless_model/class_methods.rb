@@ -1,10 +1,4 @@
 module TablelessModel
-
-  def self.included(base)
-    base.extend ClassMethods 
-  end
-
-
   module ClassMethods
     def default_value_for(properties)
       properties.each do |property, default_value|

@@ -1,11 +1,14 @@
-require "tableless_model/class_methods"
+require "validatable"
+require File.expand_path(File.join(File.dirname(__FILE__), "tableless_model/class_methods"))
 
 module ActiveRecord
   
-  include ::TablelessModel
+  class Base
+    extend TablelessModel::ClassMethods
+  end
   
   class TablelessModel < Hashie::Mash
-    include Validatable
+    include ::Validatable
 
     @@default_values = {}
 
