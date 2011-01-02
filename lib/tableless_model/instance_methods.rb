@@ -62,7 +62,7 @@ module Tableless
     #   "<#MyTablelessModel a=1 b=2>"
     # 
     def inspect
-      "<##{self.class.to_s}" << self.keys.inject(""){|result, k| result << " #{k}=#{self[k].inspect}"; result }  << ">"
+      "<##{self.class.to_s}" << self.keys.sort.inject(""){|result, k| result << " #{k}=#{self[k].inspect}"; result }  << ">"
     end
 
   end
