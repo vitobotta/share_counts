@@ -1,0 +1,20 @@
+PATH
+  remote: .
+  specs:
+    tableless_model (0.0.1)
+      hashie
+      validatable
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    hashie (0.4.0)
+    validatable (1.6.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  hashie
+  tableless_model!
+  validatable

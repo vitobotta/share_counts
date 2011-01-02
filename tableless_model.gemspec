@@ -6,11 +6,15 @@ Gem::Specification.new do |s|
   s.name        = "tableless_model"
   s.version     = TablelessModel::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["Vito Botta"]
+  s.email       = ["vito@botta.name"]
   s.homepage    = "http://rubygems.org/gems/tableless_model"
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{A serialisable, table-less model for ActiveRecord useful to store settings, options, etc in a parent object}
+  s.description = %q{A serialisable, table-less model for ActiveRecord useful to store settings, options, etc in a parent object}
+  
+  s.add_dependency("hashie")
+  s.add_dependency("validatable")
+
 
   s.rubyforge_project = "tableless_model"
 
