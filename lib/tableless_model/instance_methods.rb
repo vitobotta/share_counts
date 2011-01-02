@@ -64,6 +64,17 @@ module Tableless
     def inspect
       "<##{self.class.to_s}" << self.keys.sort.inject(""){|result, k| result << " #{k}=#{self[k].inspect}"; result }  << ">"
     end
+    
+    
+    # 
+    # 
+    # Ensures that when merging with a given hash
+    # all the keys are stringified as the keys are always handled 
+    # as strings in the tableless model
+    # 
+    def merge(hash)
+      super hash.stringify_keys
+    end
 
   end
 end
