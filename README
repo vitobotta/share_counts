@@ -1,0 +1,95 @@
+= Tableless Model
+
+This is an extended Hash that has a defined collection of method-like attributes, and only these attributes can be set or read from the hash. Optionally, you can also set default values and enforce data types for these attributes.
+
+Tableless Model behaves in a similar way to normal ActiveRecord models in that it also supports validations and can be useful, for example, to reduce database complexity in some cases, by removing associations and therefore tables. 
+
+In particular, by using Tableless Model, you could save tables whenever you have one to one associations between a parent model and a child model containing options, settings, debugging information or any other collection of attributes that belongs uniquely to a single parent object.
+
+
+
+== Installation
+
+Tableless Model is available as a Rubygem:
+
+		gem install tableless_model
+
+
+
+== Usage
+
+For example's sake, say we have these two models:
+
+1)
+
+		class Page < ActiveRecord::Base
+
+			# having columns such as id, title, etc
+	
+			<b>has_one :seo_settings</b>
+	
+		end
+
+2) 
+
+		class SeoOptions < ActiveRecord::Base
+
+			set_table_name "seo_options"
+
+			# having columns such as id, title_tag, meta_description, meta_keywords, noindex, nofollow, noarchive, <b>page_id</b>
+
+			<b>belongs_to :page</b>
+
+		end
+
+
+So that each instance of Page has its own SEO options, and these options/settings only belong to a page, so we have a one to one association, and our database will have the tables "pages", and "seo_options".
+
+Using Tableless Model, we could remove the association and the table seo_options altogether, by storing those options in a column in the pages table, in a YAML::serialized form. So the models become:
+
+
+1)
+
+		class Page < ActiveRecord::Base
+
+			# having columns such as id, title, <b>seo</b>, etc
+
+			<b>has_tableless :seo => SeoOptions</b>
+	
+		end
+
+2) 
+
+		class SeoOptions < <b>ActiveRecord::TablelessModel</b>
+
+		  <b>attribute :title_tag,         :type => :string,  :default => ""
+		  attribute :meta_description,  :type => :string,  :default => ""  
+		  attribute :meta_keywords,     :type => :string,  :default => ""  
+		  attribute :noindex,           :type => :boolean, :default => false 
+		  attribute :nofollow,          :type => :boolean, :default => false 
+		  attribute :noarchive,         :type => :boolean, :default => false </b>
+
+		end
+
+
+That's it. Each instance of Page will now store directly its YAML-serialized SEO settings in the column named "seo". This is how the content of that column would look like in the database:
+
+--- !map:SeoOptions 
+noarchive: false
+meta_description: 
+meta_keywords: 
+nofollow: false
+title_tag: 
+noindex: false
+
+
+
+== TODO
+
+* Support for associations
+
+
+== Authors
+
+* Vito Botta ( http://vitobotta.com )
+
