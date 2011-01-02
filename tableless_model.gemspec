@@ -11,11 +11,13 @@ Gem::Specification.new do |s|
   s.homepage    = "http://rubygems.org/gems/tableless_model"
   s.summary     = %q{A serialisable, table-less model for ActiveRecord useful to store settings, options, etc in a parent object}
   s.description = %q{A serialisable, table-less model for ActiveRecord useful to store settings, options, etc in a parent object}
+
+  s.add_dependency "hashie"
+  s.add_dependency "validatable"
+
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "mocha"
   
-  s.add_dependency("hashie")
-  s.add_dependency("validatable")
-
-
   s.rubyforge_project = "tableless_model"
 
   s.files         = `git ls-files`.split("\n")

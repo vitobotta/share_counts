@@ -1,7 +1,9 @@
-require "tableless_model/default_value_for"
-require "tableless_model/has_tableless"
+require "tableless_model/class_methods"
 
 module ActiveRecord
+  
+  include ::TablelessModel
+  
   class TablelessModel < Hashie::Mash
     include Validatable
 
@@ -119,8 +121,6 @@ module ActiveRecord
     end
 
   end
-
-
 end
 
 
