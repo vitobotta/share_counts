@@ -13,6 +13,7 @@ module ActiveRecord
 
     extend   Tableless::ClassMethods
     include  Tableless::InstanceMethods
+    include Validatable
     
     # 
     # 
