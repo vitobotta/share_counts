@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
+
 require "tableless_model/version"
 
 Gem::Specification.new do |s|
-  s.name        = "tableless_model"
+  s.name        = "vitobotta/tableless_model"
   s.version     = TablelessModel::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Vito Botta"]
@@ -12,11 +13,10 @@ Gem::Specification.new do |s|
   s.summary     = %q{A serialisable and validatable table-less model with support for associations, useful to store settings, options, etc in a serialized form in a parent object}
   s.description = %q{A serialisable and validatable table-less model with support for associations, useful to store settings, options, etc in a serialized form in a parent object}
 
-  s.add_dependency "hashie"
   s.add_dependency "validatable"
 
-  s.add_development_dependency "rspec"
-  s.add_development_dependency "mocha"
+  s.add_development_dependency "activerecord"
+  s.add_development_dependency "minitest"
   
   s.rubyforge_project = "tableless_model"
 

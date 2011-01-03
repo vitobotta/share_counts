@@ -62,20 +62,21 @@ module Tableless
       begin
         case type
           when :string    then (value.is_a?(String) ? value : String(value))
-          when :integer   then (value.is_a?(Integer) ? value : Integer(value))
-          when :float     then (value.is_a?(Float) ? value : Float(value))
-          when :decimal   then (value.is_a?(Float) ? value : Float(value))
+          when :integer   then (value.is_a?(Integer) ? value : value.to_s.to_i)
+          when :float     then (value.is_a?(Float) ? value : value.to_s.to_f)
+          when :decimal   then (value.is_a?(BigDecimal) ? value : BigDecimal(value.to_s))
           when :time      then (value.is_a?(Time) ? value : Time.parse(value))
           when :date      then (value.is_a?(Date) ? value : Date.parse(value))
           when :datetime  then (value.is_a?(DateTime) ? value : DateTime.parse(value))
-          when :boolean   then (value == true || value == 1 || value.to_s =~ /^(true|1)$/i)
+          when :boolean   then (["true", "1"].include?(value.to_s))
           else value
         end
       rescue Exception => e
-        raise StandardError, "Invalid value '#{value.inspect}' for attribute #{attribute_name} - expected data type is #{type} but value is a #{value.class} (Exception details: #{e})"    
+        raise StandardError, "Invalid value #{value.inspect} for attribute #{attribute_name} - expected data type is #{type.to_s.capitalize} but value is a #{value.class} (Exception details: #{e})"    
         value
       end
     end
 
   end
 end
+
