@@ -49,7 +49,7 @@ For example's sake, say we have these two models:
 
 So that each instance of Page has its own SEO options, and these options/settings only belong to a page, so we have a one to one association, and our database will have the tables "pages", and "seo_options".
 
-Using Tableless Model, we could remove the association and the table seo_options altogether, by storing those options in a column in the pages table, in a YAML::serialized form. So the models become:
+Using Tableless Model, we could remove the association and the table seo_options altogether, by storing those options in a column of the pages table, in a YAML-serialized form. So the models become:
 
 
 1)
