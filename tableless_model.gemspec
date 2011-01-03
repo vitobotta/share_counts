@@ -4,7 +4,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "tableless_model/version"
 
 Gem::Specification.new do |s|
-  s.name        = "vitobotta/tableless_model"
+  s.name        = "tableless_model"
   s.version     = TablelessModel::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Vito Botta"]
