@@ -15,7 +15,7 @@ Tableless Model is available as a Rubygem:
 
 		gem install tableless_model
 
-		(current version: 0.0.2)
+		(current version: 0.0.3)
 		
 
 == Usage
