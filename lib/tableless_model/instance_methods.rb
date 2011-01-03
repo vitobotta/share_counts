@@ -68,12 +68,11 @@ module Tableless
     
     # 
     # 
-    # Ensures that when merging with a given hash
-    # all the keys are stringified as the keys are always handled 
-    # as strings in the tableless model
+    # Since the object should only allow the defined attributes
+    # merging is forbidden
     # 
     def merge(hash)
-      super hash.stringify_keys
+      raise NoMethodError
     end
 
   end

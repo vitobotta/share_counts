@@ -57,6 +57,11 @@ describe "An instance of TablelessModel" do
     @instance.test_attribute_with_type_and_default_value.must_equal 3
   end
   
+  it "should allow overriding the default values" do
+    instance = TestClass2.new( :test_attribute_with_default_value => "changed value" )
+    instance.test_attribute_with_default_value.must_equal "changed value"
+  end
+  
   it "assumes an attribute's data type is string if the type has not been specified" do
     @instance.test_attribute.must_be_kind_of String
   end
@@ -68,7 +73,20 @@ describe "An instance of TablelessModel" do
   it "does not allow access to undefined attributes" do
     @instance.wont_respond_to "unknown_attribute"
     @instance.wont_respond_to "unknown_attribute="
+    
+    proc { @instance["unknown_attribute"] }.must_raise(NoMethodError)
+    proc { @instance["unknown_attribute="] }.must_raise(NoMethodError)
   end
+  
+  it "shows the expected output on inspect" do
+    @instance.inspect.must_equal "<#TestClass2 test_attribute=\"\" test_attribute_with_default_value=\"default value\" test_attribute_with_type_and_default_value=3>"
+  end
+
+
+  it "should not allow merging" do
+    proc { @instance.merge(:new_symbol_key => "new_symbol_key") }.must_raise NoMethodError
+  end
+  
 end
 
 
@@ -119,3 +137,4 @@ describe "An instance of TablelessModel" do
     end
   end
 end
+
