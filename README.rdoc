@@ -95,7 +95,20 @@ Of course, you can also override the default values for the attributes when crea
 		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil 
 			title_tag="a different title tag">
 
-Now, if you have used the has_tabless macro in the parent class, Page, each instance of Page will store directly its YAML-serialized SEO settings in the column named "seo". This is how the content of that column would look like in the database:
+Now, if you have used the has_tabless macro in the parent class, Page, each instance of Page will store directly its YAML-serialized SEO settings in the column named "seo". 
+
+		page = Page.new
+		
+		page.seo_options
+		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil
+		 	title_tag="default title tag">
+
+		page.seo_options.title_tag = "changed title tag"
+		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil
+		 	title_tag="changed title tag">
+
+
+And this is how the content of that column would look like in the database:
 
 		--- !map:SeoOptions 
 		noarchive: false
