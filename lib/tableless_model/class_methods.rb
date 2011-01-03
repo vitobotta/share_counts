@@ -55,9 +55,7 @@ module Tableless
     def cast(attribute_name, value)
       return nil if value.nil?
 
-      type = self.attributes[attribute_name.to_s][:type]
-    
-      return value if type.nil?
+      type = self.attributes[attribute_name.to_s][:type] || :string
     
       begin
         case type
