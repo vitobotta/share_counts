@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Vito Botta"]
   s.email       = ["vito@botta.name"]
-  s.homepage    = "http://rubygems.org/gems/tableless_model"
+  s.homepage    = "https://github.com/vitobotta/tableless_model"
   s.summary     = %q{A serialisable and validatable table-less model with support for associations, useful to store settings, options, etc in a serialized form in a parent object}
   s.description = %q{A serialisable and validatable table-less model with support for associations, useful to store settings, options, etc in a serialized form in a parent object}
 
