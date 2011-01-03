@@ -7,6 +7,7 @@ Tableless Model behaves in a similar way to normal ActiveRecord models in that i
 
 In particular, by using Tableless Model, you could save tables whenever you have one to one associations between a parent model and a child model containing options, settings, debugging information or any other collection of attributes that belongs uniquely to a single parent object.
 
+Removing database tables also means reducing the number of queries to fetch associations, and therefore it means helping a little bit with performance too.
 
 
 == Installation
