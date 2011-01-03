@@ -79,7 +79,8 @@ That's it.
 When you now create an instance of SeoOptions, you can get and set its attributes as you would do with a normal model:
 
 		seo_options = SeoOptions.new
-		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil title_tag="default title tag">
+		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil
+		 	title_tag="default title tag">
 
 		seo_options.title_tag
 			=> "default title tag"
@@ -91,7 +92,8 @@ Note that inspect	shows the properties of the Tableless Model in the same way it
 Of course, you can also override the default values for the attributes when creating a new instance:
 
 		seo_options = SeoOptions.new( :title_tag => "a different title tag" )
-		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil title_tag="a different title tag">
+		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil 
+			title_tag="a different title tag">
 
 Now, if you have used the has_tabless macro in the parent class, Page, each instance of Page will store directly its YAML-serialized SEO settings in the column named "seo". This is how the content of that column would look like in the database:
 
