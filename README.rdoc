@@ -64,7 +64,7 @@ Using Tableless Model, we could remove the association and the table seo_options
 
 		class SeoOptions < ActiveRecord::TablelessModel
 
-		  attribute :title_tag,         :type => :string,  :default => ""
+		  attribute :title_tag,         :type => :string,  :default => "default title tag"
 		  attribute :meta_description,  :type => :string,  :default => ""  
 		  attribute :meta_keywords,     :type => :string,  :default => ""  
 		  attribute :noindex,           :type => :boolean, :default => false 
@@ -74,7 +74,26 @@ Using Tableless Model, we could remove the association and the table seo_options
 		end
 
 
-That's it. Each instance of Page will now store directly its YAML-serialized SEO settings in the column named "seo". This is how the content of that column would look like in the database:
+That's it. 
+
+When you now create an instance of SeoOptions, you can get and set its attributes as you would do with a normal model:
+
+		seo_options = SeoOptions.new
+		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil title_tag="default title tag">
+
+		seo_options.title_tag
+			=> "default title tag"
+
+		seo_options.title_tag = "new title tag"
+			=> "new title tag"
+			
+Note that inspect	shows the properties of the Tableless Model in the same way it does for ActiveRecord models.
+Of course, you can also override the default values for the attributes when creating a new instance:
+
+		seo_options = SeoOptions.new( :title_tag => "a different title tag" )
+		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil title_tag="a different title tag">
+
+Now, if you have used the has_tabless macro in the parent class, Page, each instance of Page will store directly its YAML-serialized SEO settings in the column named "seo". This is how the content of that column would look like in the database:
 
 		--- !map:SeoOptions 
 		noarchive: false
