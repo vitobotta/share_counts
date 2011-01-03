@@ -122,7 +122,7 @@ And this is how the content of the serialized column would look like in the data
 
 == Validations
 
-Tableless Model uses the gem Validatable to support validations methods and callbacks (such as "after_validation").
+Tableless Model uses the Validatable gem to support validations methods and callbacks (such as "after_validation").
 Note: it currently uses the Rails 2.x syntax only.
 
 Example:
