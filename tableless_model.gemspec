@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "validatable"
   s.add_development_dependency "minitest"
+  s.add_development_dependency "ansi"
   
   s.rubyforge_project = "tableless_model"
 

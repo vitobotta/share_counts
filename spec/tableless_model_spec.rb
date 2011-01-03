@@ -1,4 +1,5 @@
-require "rubygems"
+require File.join(File.dirname(__FILE__), "test_helper")
+
 require "active_record"
 require "lib/tableless_model"
 require 'minitest/autorun'
@@ -27,7 +28,7 @@ describe "The 'attribute' macro" do
       attribute :test_attribute
     end
   end
-  
+
   it "adds a key-value pair to the attributes accessor" do
     TestClass.attributes.wont_be_empty
     TestClass.attributes.key?("test_attribute").must_equal true, "An attribute named 'test_attribute' should have been defined"
@@ -138,3 +139,21 @@ describe "An instance of TablelessModel" do
   end
 end
 
+
+describe "An ActiveRecord::Base model" do
+  before do
+    class ModelOptions < ActiveRecord::TablelessModel
+      attribute :aaa, :default => 111
+      attribute :bbb, :default => "bbb"
+    end
+    
+    class Model < ActiveRecord::Base
+      # has_tableless :options => ModelOptions
+    end
+  end
+  
+  it "responds to default_value_for, has_tableless" do
+    [:default_value_for, :has_tableless].each {|method| Model.must_respond_to(method)}
+  end
+  
+end

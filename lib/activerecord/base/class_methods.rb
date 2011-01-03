@@ -35,7 +35,7 @@ module Base
         
         # Making sure the serialized column contains a new instance of the tableless model
         # if it hasn't been set yet
-        default_value_for column_name => class_type.new 
+        default_value_for column_name, class_type.new 
         
         # Telling AR that the column has to store an instance of the given tableless model in 
         # YAML serialized format
