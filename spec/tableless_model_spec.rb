@@ -64,6 +64,11 @@ describe "An instance of TablelessModel" do
   it "assigns the expected not-nil value to an attribute if a default value hasn't been specified" do
     @instance.test_attribute.must_equal ""
   end
+  
+  it "does not allow access to undefined attributes" do
+    @instance.wont_respond_to "unknown_attribute"
+    @instance.wont_respond_to "unknown_attribute="
+  end
 end
 
 
