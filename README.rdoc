@@ -142,8 +142,11 @@ Example:
 		end
 
 
+Testing:
+
 		x = SeoOptionsSettings.new
-		 => <#SeoOptions meta_description="" meta_keywords="" noarchive=false nofollow=false noindex=false title_tag="">
+		 => <#SeoOptions meta_description="" meta_keywords="" noarchive=false nofollow=false noindex=false 
+		title_tag="">
 
 		x.valid?
 		 => false
