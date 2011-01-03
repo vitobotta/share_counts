@@ -99,16 +99,16 @@ Now, if you have used the has_tabless macro in the parent class, Page, each inst
 
 		page = Page.new
 		
-		page.seo_options
+		page.seo
 		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil
 		 	title_tag="default title tag">
 
-		page.seo_options.title_tag = "changed title tag"
+		page.seo.title_tag = "changed title tag"
 		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=nil nofollow=nil noindex=nil
 		 	title_tag="changed title tag">
 
 
-And this is how the content of that column would look like in the database:
+And this is how the content of the serialized column would look like in the database:
 
 		--- !map:SeoOptions 
 		noarchive: false
