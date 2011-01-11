@@ -1,6 +1,7 @@
 require 'rubygems'
-require 'minitest/unit'
-require 'minitest/spec'
+gem "minitest"
+require 'minitest/autorun'
+
 require 'ansi'
 
 class MiniTest::Unit
@@ -43,13 +44,14 @@ class MiniTest::Unit
   def run_test_suites(filter = /./)
     @test_count, @assertion_count = 0, 0
     old_sync, @@out.sync = @@out.sync, true if @@out.respond_to? :sync=
+
     TestCase.test_suites.each do |suite|
       test_cases = suite.test_methods.grep(filter)
       if test_cases.size > 0
         @@out.print "\n#{suite}:\n"
       end
 
-      test_cases.each do |test|
+  test_cases.each do |test|
         inst = suite.new test
         inst._assertions = 0
 
@@ -77,7 +79,7 @@ class MiniTest::Unit
         @@out.print " (%.2fs) " % (Time.now - t)
 
         if @broken
-          @@out.puts
+          @@out.puts 
 
           report = @report.last
           @@out.puts pad(report[:message], 10)

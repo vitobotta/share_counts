@@ -6,7 +6,7 @@ require 'minitest/autorun'
 require File.expand_path(File.join(File.dirname(__FILE__), "../lib/tableless_model"))
 
 
-describe "A class inheriting from ActiveRecord::TablelessModel " do
+describe "A class inheriting from ActiveRecord::TablelessModel" do
   before do
     class TestClass1 < ActiveRecord::TablelessModel
     end
