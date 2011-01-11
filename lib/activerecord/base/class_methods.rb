@@ -46,7 +46,7 @@ module Base
         # model and not just a normal hash or the value of the attribute in the database,
         # which is plain text
         define_method column_name.to_s do
-          class_type.new(read_attribute(class_name.to_sym) || {})
+          class_type.new(read_attribute(column_name.to_sym) || {})
         end
 
         # Adding setter for the serialized column,
@@ -68,17 +68,6 @@ module Base
     # having the default values, if any, declared in the tableless model itself
     # 
     def default_value_for(property, default_value)
-      
-      # define_method "set_default_value_for_#{property.to_s}" do |*args| 
-      #   return unless new_record? 
-      #   return unless self.respond_to?(property.to_sym)
-      #     
-      #   self.send("#{property.to_s}=".to_sym, self.send(property.to_sym) || default_value)    
-      # end
-      # 
-      # eval "after_initialize \"#{set_default_value_for_#{property.to_s}}\""
-      
-      
       unless method_defined? "after_initialize_with_default_value_for_#{property.to_s}"
       
         unless method_defined? "after_initialize"
