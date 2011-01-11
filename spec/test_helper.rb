@@ -75,7 +75,8 @@ class MiniTest::Unit
                     end)
 
 
-        @@out.print " #{test.humanize.gsub(/Test\s\d+\s(.*)/,"\\1")} "
+        # @@out.print " #{test.humanize.gsub(/Test\s\d+\s(.*)/,"\\1")} "
+        @@out.print " #{test} "
         @@out.print " (%.2fs) " % (Time.now - t)
 
         if @broken

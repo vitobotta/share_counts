@@ -27,20 +27,15 @@ module Base
       
       # if only the column name is given, the tableless model's class is expected to have that name, classified, as class name
       class_type = column.class == Hash ? column.collect{|k,v| v}.last : column.to_s.classify.constantize
-
-
+    
       # injecting in the parent object a getter and a setter for the
       # attribute that will store an instance of a tableless model
       class_eval do
-        
-        # Making sure the serialized column contains a new instance of the tableless model
-        # if it hasn't been set yet
-        default_value_for column_name, class_type.new 
-        
+
         # Telling AR that the column has to store an instance of the given tableless model in 
         # YAML serialized format
         serialize column_name, ActiveRecord::TablelessModel
-
+    
         # Adding getter for the serialized column,
         # making sure it always returns an instance of the specified tableless
         # model and not just a normal hash or the value of the attribute in the database,
@@ -48,42 +43,13 @@ module Base
         define_method column_name.to_s do
           class_type.new(read_attribute(column_name.to_sym) || {})
         end
-
+    
         # Adding setter for the serialized column,
         # making sure it always stores in it an instance of 
         # the specified tableless model (as the argument may also be a regular hash)
         define_method "#{column_name.to_s}=" do |value|
           super class_type.new(value)
         end
-      end
-    end
-    
-
-      
-    # 
-    # 
-    # Overriding the setter for the serialized column in the AR model,
-    # to make sure that, if it is still nil, the column always
-    # returns at least a new instance of the specified tableless model
-    # having the default values, if any, declared in the tableless model itself
-    # 
-    def default_value_for(property, default_value)
-      unless method_defined? "after_initialize_with_default_value_for_#{property.to_s}"
-      
-        unless method_defined? "after_initialize"
-          define_method "after_initialize" do |*args|
-          end
-        end
-      
-        define_method "after_initialize_with_default_value_for_#{property.to_s}" do |*args| 
-          send("after_initialize_without_default_value_for_#{property.to_s}", *args)
-          return unless new_record? 
-          return unless self.respond_to?(property.to_sym)
-      
-          self.send("#{property.to_s}=".to_sym, self.send(property.to_sym) || default_value)    
-        end
-      
-        alias_method_chain "after_initialize", "default_value_for_#{property.to_s}"
       end
     end
 

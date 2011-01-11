@@ -148,13 +148,56 @@ describe "An ActiveRecord::Base model" do
       attribute :bbb, :default => "bbb"
     end
     
-    class Model < ActiveRecord::Base
-      # has_tableless :options => ModelOptions
+    ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
+    ActiveRecord::Base.connection.execute(" create table test_models (options varchar(50)) ")
+
+    class TestModel < ActiveRecord::Base
+      has_tableless :options => ModelOptions
     end
   end
   
   it "responds to default_value_for, has_tableless" do
-    [:default_value_for, :has_tableless].each {|method| Model.must_respond_to(method)}
+    TestModel.must_respond_to(:has_tableless)
+  end
+  
+  describe "new instance" do
+    before do
+      @instance = TestModel.new
+    end
+    
+    it "has a getter and a setter for :options" do
+      %w(options options=).each{|m| @instance.must_respond_to m }
+      @instance.options.must_be_kind_of ModelOptions
+      @instance.options.wont_be_nil
+      @instance.options.aaa.must_equal "111"
+      @instance.options.bbb.must_equal "bbb"
+      proc { @instance.options = "test" }.must_raise NoMethodError, "should not accept other values than a hash or ModelOptions instance"
+    end
+    
+    describe "setter" do
+      before do
+        @return_value = @instance.send("options=", { :aaa => "CCC", :bbb => "DDD"  })
+      end
+      
+      it "correctly sets the serialized column" do
+        @return_value.must_be_kind_of ModelOptions
+        %w(aaa bbb).each{|m| @return_value.must_respond_to m}
+        @instance.options.aaa.must_equal "CCC"
+        @instance.options.bbb.must_equal "DDD"
+      end
+      
+      it "should save the serialized column correctly" do
+        @instance.save!
+        @instance = TestModel.first
+        
+        @instance.options.aaa.must_equal "CCC"
+        @instance.options.bbb.must_equal "DDD"
+        
+        # Ensuring the serialize macro is used
+        @instance.options.must_be_kind_of ModelOptions
+        
+      end
+    end
   end
   
 end

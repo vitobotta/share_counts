@@ -8,7 +8,12 @@ GEM
   remote: http://rubygems.org/
   specs:
     ansi (1.2.2)
+    ffi (1.0.4)
+      rake (>= 0.8.7)
     minitest (2.0.2)
+    rake (0.8.7)
+    sqlite3 (0.1.1)
+      ffi (>= 0.6.3)
     validatable (1.6.7)
 
 PLATFORMS
@@ -17,5 +22,6 @@ PLATFORMS
 DEPENDENCIES
   ansi
   minitest
+  sqlite3
   tableless_model!
   validatable
