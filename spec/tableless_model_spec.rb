@@ -1,8 +1,9 @@
-require File.join(File.dirname(__FILE__), "test_helper")
+require File.expand_path(File.join(File.dirname(__FILE__), "test_helper"))
 
 require "active_record"
-require "lib/tableless_model"
 require 'minitest/autorun'
+
+require File.expand_path(File.join(File.dirname(__FILE__), "../lib/tableless_model"))
 
 
 describe "A class inheriting from ActiveRecord::TablelessModel " do
@@ -119,7 +120,7 @@ describe "An instance of TablelessModel" do
       # excluding some test values that would always fail depending on the type
       exclude_test_values = case type
       when :decimal then [ "test", true ]
-      when :time then [ 1234, true ]
+      when :time then [ "test", 1234, true ]
       when :date then [ "test", 1234, true, "1234.12" ]
       when :datetime then [ "test", 1234, true ]
       else []
