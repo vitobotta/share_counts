@@ -12,8 +12,12 @@ module ActiveRecord
   class TablelessModel < Hash
 
     extend   Tableless::ClassMethods
+
     include  Tableless::InstanceMethods
-    include Validatable
+    include  Validatable
+
+ 
+    attr_accessor :__owner_object, :__serialized_attribute
     
     # 
     # 
@@ -24,6 +28,7 @@ module ActiveRecord
     # 
     class << self
       attr_reader :attributes
+      
     end
 
   end

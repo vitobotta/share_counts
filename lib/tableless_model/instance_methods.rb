@@ -46,7 +46,17 @@ module Tableless
     # 
     def []=(attribute_name, value)
       raise NoMethodError, "The attribute #{attribute_name} is undefined" unless self.class.attributes.has_key? attribute_name.to_s
-      super attribute_name.to_s, self.class.cast(attribute_name, value)
+      
+      return_value = super(attribute_name.to_s, self.class.cast(attribute_name, value))
+
+      if self.__owner_object 
+        # This makes the tableless model compatible with partial_updates:
+        # whenever a property in the tableless model is changed, we force the parent/owner object to a changed state
+        # by updating it with a new, updated instance of the tableless model
+        self.__owner_object.send "#{self.__serialized_attribute.to_s}=".to_sym, self
+      end
+
+      return_value
     end
 
 

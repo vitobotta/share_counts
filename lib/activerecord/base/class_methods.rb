@@ -27,7 +27,8 @@ module Base
       
       # if only the column name is given, the tableless model's class is expected to have that name, classified, as class name
       class_type = column.class == Hash ? column.collect{|k,v| v}.last : column.to_s.classify.constantize
-    
+
+
       # injecting in the parent object a getter and a setter for the
       # attribute that will store an instance of a tableless model
       class_eval do
@@ -41,7 +42,12 @@ module Base
         # model and not just a normal hash or the value of the attribute in the database,
         # which is plain text
         define_method column_name.to_s do
-          class_type.new(read_attribute(column_name.to_sym) || {})
+          instance = class_type.new(read_attribute(column_name.to_sym) || {})
+          
+          instance.__owner_object         = self
+          instance.__serialized_attribute = column_name
+          
+          instance
         end
     
         # Adding setter for the serialized column,

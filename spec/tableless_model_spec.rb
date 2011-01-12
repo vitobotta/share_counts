@@ -98,6 +98,22 @@ describe "An instance of TablelessModel" do
       attribute :typed_test_attribute,  :type => :integer
     end
   end
+
+  describe "instance" do
+    before do
+      @instance = TestClass3.new
+    end
+    
+    it "has rw the accessor __owner_object" do
+      @instance.must_respond_to "__owner_object"
+      @instance.must_respond_to "__owner_object="
+    end
+
+    it "has rw the accessor __serialized_attribute" do
+      @instance.must_respond_to "__serialized_attribute"
+      @instance.must_respond_to "__serialized_attribute="
+    end
+  end
   
   it "tries to enforce type casting if a type has been specified for an attribute" do
 
@@ -140,14 +156,13 @@ describe "An instance of TablelessModel" do
   end
 end
 
-
 describe "An ActiveRecord::Base model" do
   before do
     class ModelOptions < ActiveRecord::TablelessModel
       attribute :aaa, :default => 111
       attribute :bbb, :default => "bbb"
     end
-    
+
     ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
     ActiveRecord::Base.connection.execute(" create table test_models (options varchar(50)) ")
 
@@ -155,15 +170,31 @@ describe "An ActiveRecord::Base model" do
       has_tableless :options => ModelOptions
     end
   end
-  
+
   it "responds to default_value_for, has_tableless" do
     TestModel.must_respond_to(:has_tableless)
   end
   
-  describe "new instance" do
+  
+  describe "instance" do
     before do
       @instance = TestModel.new
     end
+    
+    it "must respond to changed?" do
+      @instance.must_respond_to "changed?"
+      @instance.changed?.must_equal false
+      @instance.changes.must_equal({})
+    end
+    
+    it "sets the accessor __owner_object to self in the tableless model instance" do
+      @instance.options.__owner_object.must_equal @instance
+    end
+    
+    it "sets the accessor __serialized_attribute to the name of its column that stored the tableless model instance, serialized" do
+      @instance.options.__serialized_attribute.must_equal :options
+    end
+    
     
     it "has a getter and a setter for :options" do
       %w(options options=).each{|m| @instance.must_respond_to m }
@@ -173,12 +204,12 @@ describe "An ActiveRecord::Base model" do
       @instance.options.bbb.must_equal "bbb"
       proc { @instance.options = "test" }.must_raise NoMethodError, "should not accept other values than a hash or ModelOptions instance"
     end
-    
+
     describe "setter" do
       before do
         @return_value = @instance.send("options=", { :aaa => "CCC", :bbb => "DDD"  })
       end
-      
+
       it "correctly sets the serialized column" do
         @return_value.must_be_kind_of ModelOptions
         %w(aaa bbb).each{|m| @return_value.must_respond_to m}
@@ -186,18 +217,30 @@ describe "An ActiveRecord::Base model" do
         @instance.options.bbb.must_equal "DDD"
       end
       
+      it "forces the owner object to a changed state with partial_updates on" do
+        @instance.options.aaa = "changed aaa"
+        @instance.options.bbb = "changed bbb"
+
+        @instance.options.aaa.must_equal "changed aaa"
+        @instance.changes.keys.include?("options").must_equal true
+
+        @instance.changes[:options][0].must_equal nil
+        @instance.changes[:options][1].must_equal({"aaa"=>"changed aaa", "bbb"=>"changed bbb"})
+      end
+
       it "should save the serialized column correctly" do
         @instance.save!
-        @instance = TestModel.first
+      
+        instance = TestModel.first
         
-        @instance.options.aaa.must_equal "CCC"
-        @instance.options.bbb.must_equal "DDD"
+        instance.options.aaa.must_equal "CCC"
+        instance.options.bbb.must_equal "DDD"
         
-        # Ensuring the serialize macro is used
-        @instance.options.must_be_kind_of ModelOptions
-        
+         # Ensuring the serialize macro is used
+        instance.options.must_be_kind_of ModelOptions
       end
     end
   end
-  
 end
+
+  
