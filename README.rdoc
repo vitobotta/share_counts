@@ -15,7 +15,7 @@ Services currently supported:
 == Installation
 
 Just..
-		gem install share_counts
+	gem install share_counts
 
 and then require/bundle it.
 
@@ -23,40 +23,44 @@ and then require/bundle it.
 
 You can check each service individually...
 
-	ruby-1.9.2-p0 :004 > require "share_counts"
+	ruby-1.9.2-p0 :001 > require "share_counts"
 	 => true 
-
-	# Reddit		
-	ruby-1.9.2-p0 :005 > ShareCounts.reddit "http://vitobotta.com/awesomeprint-similar-production/"
+	
+	ruby-1.9.2-p0 :002 > url = "http://vitobotta.com/awesomeprint-similar-production/"
+	 => "http://vitobotta.com/awesomeprint-similar-production/" 
+	
+	# Reddit
+	ruby-1.9.2-p0 :003 > ShareCounts.reddit url
 	 => 5 
-
+	
 	# Digg
-	ruby-1.9.2-p0 :006 > ShareCounts.digg "http://vitobotta.com/awesomeprint-similar-production/"
+	ruby-1.9.2-p0 :004 > ShareCounts.digg url
 	 => 1 
-
-	# LinkedIn
-	ruby-1.9.2-p0 :007 > ShareCounts.linkedin "http://vitobotta.com/awesomeprint-similar-production/"
-	 => 2 
-
+	
 	# Twitter
-	ruby-1.9.2-p0 :008 > ShareCounts.twitter "http://vitobotta.com/awesomeprint-similar-production/"
+	ruby-1.9.2-p0 :005 > ShareCounts.twitter url
 	 => 2 
-
-	# StumbleUpon
-	ruby-1.9.2-p0 :009 > ShareCounts.stumbleupon "http://vitobotta.com/awesomeprint-similar-production/"
-	 => 0 
-
-	# Google Buzz
-	ruby-1.9.2-p0 :010 > ShareCounts.googlebuzz "http://vitobotta.com/awesomeprint-similar-production/"
-	 => 0 
-
-	# Facebook (share button)
-	ruby-1.9.2-p0 :011 > ShareCounts.facebook "http://vitobotta.com/awesomeprint-similar-production/"
+	
+	# Facebook shares
+	ruby-1.9.2-p0 :006 > ShareCounts.facebook url
 	 => 1 
+	
+	# Facebook likes
+	ruby-1.9.2-p0 :007 > ShareCounts.fblike url
+	 => 0 
+	
+	# LinkedIn
+	ruby-1.9.2-p0 :008 > ShareCounts.linkedin url
+	 => 2 
+	
+	# StumbleUpon
+	ruby-1.9.2-p0 :009 > ShareCounts.stumbleupon url
+	 => 0 
+	
+	# Google Buzz
+	ruby-1.9.2-p0 :010 > ShareCounts.googlebuzz url
+	 => 0 
 
-	# Facebook (likes)
-	ruby-1.9.2-p0 :012 > ShareCounts.fblike "http://vitobotta.com/awesomeprint-similar-production/"
-	 => 0
 
 or you can get 'em all in one shot:
 

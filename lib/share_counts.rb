@@ -64,7 +64,7 @@ module ShareCountsMethods
 
       def all url
         try {
-          %w(reddit digg twitter facebook fblike linkedin googlebuzz stumbleupon).inject({}) { |r, c| r[c.to_sym] = SocialCounts.send(c, url); r }
+          %w(reddit digg twitter facebook fblike linkedin googlebuzz stumbleupon).inject({}) { |r, c| r[c.to_sym] = ShareCounts.send(c, url); r }
         }
       end
 
