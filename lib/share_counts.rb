@@ -15,7 +15,7 @@ module ShareCountsMethods
       
       def cached
         urls = ($share_counts_cache || {}).keys.select{|k| k =~ /^ShareCounts/ }.inject({}) do |result, key|
-          data = key.split("||"); network = data[1]; url = data[2]; count = from_redis(cached)
+          data = key.split("||"); network = data[1]; url = data[2]; count = from_redis("ShareCounts||#{network}||#{url}")
           (result[url] ||= {})[network.to_sym] = count unless ["all", "fball"].include? network
           result
         end
