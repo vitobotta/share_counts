@@ -4,6 +4,7 @@ PATH
     share_counts (0.0.1)
       json
       nokogiri
+      redis
       rest-client
 
 GEM
@@ -14,6 +15,7 @@ GEM
     mime-types (1.16)
     minitest (2.0.2)
     nokogiri (1.4.4)
+    redis (2.1.1)
     rest-client (1.6.1)
       mime-types (>= 1.16)
 
@@ -25,5 +27,6 @@ DEPENDENCIES
   json
   minitest
   nokogiri
+  redis
   rest-client
   share_counts!
