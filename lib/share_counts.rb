@@ -8,6 +8,10 @@ module ShareCounts
   extend ShareCountsCommon
   extend ShareCountsCaching
 
+  def self.supported_networks
+    %w(reddit digg twitter facebook fblike linkedin googlebuzz stumbleupon)
+  end
+
   def self.reddit url
     try("reddit", url) {
       extract_count from_json( "http://www.reddit.com/api/info.json", :url => url ), 
@@ -74,7 +78,11 @@ module ShareCounts
   end
 
   def self.all url
-    %w(reddit digg twitter facebook fblike linkedin googlebuzz stumbleupon).inject({}) {
+    supported_networks.inject({}) { |r, c| r[c.to_sym] = ShareCounts.send(c, url); r }
+  end
+
+  def self.selected url, selections
+    selections.map{|name| name.downcase}.select{|name| supported_networks.include? name}.inject({}) {
        |r, c| r[c.to_sym] = ShareCounts.send(c, url); r }
   end
 

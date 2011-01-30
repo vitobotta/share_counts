@@ -45,7 +45,6 @@ module ShareCountsCommon
   # therefore in this case it manipulates the response to extract only
   # the JSON data required.
   # 
-  # TODO: retry 3 times before giving up
   def make_request *args
     result   = nil
     attempts = 1
