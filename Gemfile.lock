@@ -1,27 +1,29 @@
 PATH
   remote: .
   specs:
-    tableless_model (0.0.4)
-      validatable
+    share_counts (0.0.1)
+      json
+      nokogiri
+      rest-client
 
 GEM
   remote: http://rubygems.org/
   specs:
     ansi (1.2.2)
-    ffi (1.0.4)
-      rake (>= 0.8.7)
+    json (1.5.1)
+    mime-types (1.16)
     minitest (2.0.2)
-    rake (0.8.7)
-    sqlite3 (0.1.1)
-      ffi (>= 0.6.3)
-    validatable (1.6.7)
+    nokogiri (1.4.4)
+    rest-client (1.6.1)
+      mime-types (>= 1.16)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   ansi
+  json
   minitest
-  sqlite3
-  tableless_model!
-  validatable
+  nokogiri
+  rest-client
+  share_counts!
