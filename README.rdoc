@@ -93,9 +93,9 @@ Sometimes APIs may not be available or may be having issues (or there's some rat
 	 => {:reddit=>nil, :twitter=>2}
 
 
-== CACHING
+== Caching
 
-Depending on how and in which kind of applications you may want to use this gem, if you make too many requests in a short time some APIs may fail because of rate limits. Plus, some API may respond too slowly at times or just be down (Digg seems to be the least reliable of the group so far!). So the gem also supports caching with Redis. 
+Depending on how and in which kind of applications you may want to use this gem, if you make too many requests in a short time some APIs may fail because of rate limits. Plus, some API may respond too slowly at times or just be down (Digg seems to be the least reliable of the group so far!). So the gem also supports caching, at the moment with Redis only. 
 
 It's very easy to enable and use the caching:
 
@@ -145,6 +145,22 @@ Or, if you are already using the "redis" gem in your application and therefore a
 
 or just set the global variable $share_counts_cache to that reference.
 
+Similarly, by default cached share counts expire in two minutes, but you can override this by setting the global variable $share_counts_cache_expire (in seconds).
+
+You can also get an hash having all the cached URLs with their share counts:
+
+	ruby-1.9.2-p0 :009 > ShareCounts.cached
+	 => {"http://vitobotta.com/awesomeprint-similar-production/"=>{:fblike=>0, :stumbleupon=>0, :linkedin=>2, :googlebuzz=>0, :facebook=>1, :twitter=>2, :digg=>1, :reddit=>5}}
+
+
+And, if needed, your can clear the cached values:
+
+	ruby-1.9.2-p0 :010 > ShareCounts.clear_cache
+	 => ["ShareCounts||fblike||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||stumbleupon||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||linkedin||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||googlebuzz||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||facebook||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||twitter||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||digg||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||reddit||http://vitobotta.com/awesomeprint-similar-production/"] 
+	ruby-1.9.2-p0 :011 > ShareCounts.cached
+	 => {
+
+However the gem will namespace all the keys as you can see, in case you also use Redis for something else in the same app.
 
 == TODO
 
