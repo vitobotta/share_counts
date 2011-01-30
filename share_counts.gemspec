@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
+$:.push File.expand_path("../lib/share_counts", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "share_counts"
