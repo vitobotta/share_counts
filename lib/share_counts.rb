@@ -10,11 +10,11 @@ module ShareCountsMethods
     class << base
 
       def clear_cache
-        $share_counts_cache.keys.select{|cache_key| cache_key =~ /^ShareCounts/ }.each{|cache_key| $share_counts_cache.del cache_key}
+        ($share_counts_cache || {}).keys.select{|cache_key| cache_key =~ /^ShareCounts/ }.each{|cache_key| $share_counts_cache.del cache_key}
       end
       
       def cached
-        urls = $share_counts_cache.keys.select{|k| k =~ /^ShareCounts/ }.inject({}) do |result, key|
+        urls = ($share_counts_cache || {}).keys.select{|k| k =~ /^ShareCounts/ }.inject({}) do |result, key|
           data = key.split("||"); network = data[1]; url = data[2]; count = $share_counts_cache.get key
           (result[url] ||= {})[network.to_sym] = count unless ["all", "fball"].include? network
           result
@@ -22,8 +22,9 @@ module ShareCountsMethods
         urls
       end
       
-      def use_cache(host = nil, port = nil)
-        $share_counts_cache = Redis.new :host => host || $share_counts_cache_settings[:host], :port => port || $share_counts_cache_settings[:port]  
+      def use_cache *args
+        arguments = args.inject({}) { |r, c| r.merge(c) }
+        $share_counts_cache ||= arguments[:redis_store] || Redis.new(:host => arguments[:host] || $share_counts_cache_settings[:host], :port => arguments[:port] || $share_counts_cache_settings[:port])  
       end
       
       def reddit url
