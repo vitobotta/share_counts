@@ -38,7 +38,7 @@ module ShareCountsCommon
   # 
   # 
   # Performs an HTTP request to the given API URL with the specified params
-  # and within 2 seconds.
+  # and within 2 seconds, and max 3 attempts
   # 
   # If a :callback param is also specified, then it is assumed that the API
   # returns a JSON text wrapped in a call to a method by that callback name,
@@ -47,19 +47,27 @@ module ShareCountsCommon
   # 
   # TODO: retry 3 times before giving up
   def make_request *args
-    result = nil
-    
-    timeout(3) do
-      url         = args.shift
-      params      = args.inject({}) { |r, c| r.merge! c }
-      response    = RestClient.get url,  { :params => params }
+    result   = nil
+    attempts = 1
+
+    begin
+      timeout(2) do
+        url         = args.shift
+        params      = args.inject({}) { |r, c| r.merge! c }
+        response    = RestClient.get url,  { :params => params }
 
 
-      # if a callback is specified, the expected response is in the format "callback_name(JSON data)";
-      # with the response ending with ";" and, in some cases, "\n"
-      result = params.keys.include?(:callback) \
-        ? response.gsub(/^(.*);+\n*$/, "\\1").gsub(/^#{params[:callback]}\((.*)\)$/, "\\1") \
-        : response
+        # if a callback is specified, the expected response is in the format "callback_name(JSON data)";
+        # with the response ending with ";" and, in some cases, "\n"
+        result = params.keys.include?(:callback) \
+          ? response.gsub(/^(.*);+\n*$/, "\\1").gsub(/^#{params[:callback]}\((.*)\)$/, "\\1") \
+          : response
+      end
+      
+    rescue Exception => e
+      puts "Failed #{attempts} attempt(s)"
+      attempts += 1
+      retry if attempts <= 3
     end
     
     result
