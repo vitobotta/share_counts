@@ -15,7 +15,7 @@ module ShareCountsMethods
       
       def cached
         urls = ($share_counts_cache || {}).keys.select{|k| k =~ /^ShareCounts/ }.inject({}) do |result, key|
-          data = key.split("||"); network = data[1]; url = data[2]; count = $share_counts_cache.get key
+          data = key.split("||"); network = data[1]; url = data[2]; count = from_redis(cached)
           (result[url] ||= {})[network.to_sym] = count unless ["all", "fball"].include? network
           result
         end
@@ -87,28 +87,38 @@ module ShareCountsMethods
       end
 
       def all url
-        try("all", url) {
-          %w(reddit digg twitter facebook fblike linkedin googlebuzz stumbleupon).inject({}) { |r, c| r[c.to_sym] = ShareCounts.send(c, url); r }
-        }
+        %w(reddit digg twitter facebook fblike linkedin googlebuzz stumbleupon).inject({}) { |r, c| r[c.to_sym] = ShareCounts.send(c, url); r }
       end
 
       private
 
       def to_redis(cache_key, value)
-        $share_counts_cache.set cache_key, value
+        $share_counts_cache.set cache_key, Marshal.dump(value)
         $share_counts_cache.expire cache_key, $share_counts_cache_expire || 300
         value
       end
 
       def from_redis(cache_key)
-        $share_counts_cache.get cache_key
+        value = $share_counts_cache.get(cache_key)
+        return if value.nil?
+        Marshal.load value
       end
 
       def try service, url, &block
         cache_key = "ShareCounts||#{service}||#{url}"
-        $share_counts_cache.nil? ? yield : ( from_redis(cache_key) || to_redis(cache_key, yield) )
+        if $share_counts_cache.nil?
+          puts "Redis caching is disabled"
+          yield
+        elsif result = from_redis(cache_key)
+          puts "Loaded from cache"
+          result
+        else
+          puts "Making request(s)..."
+          to_redis(cache_key, yield)
+        end
+         
       rescue Exception => e
-        puts "Something went wrong: #{e}"
+        puts "Something went wrong with #{service}: #{e}"
       end
 
       def make_request *args
