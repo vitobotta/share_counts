@@ -1,167 +1,80 @@
-= Tableless Model
+= Share Counts
 
-This is an extended Hash that has a defined collection of method-like attributes, and only these attributes can be set or read from the hash. 
-Optionally, you can also set default values and enforce data types for these attributes.
+This gem makes it super easy to check how many times a page/URL has been shared on social networks and aggregators.
+Services currently supported:
 
-Tableless Model behaves in a similar way to normal ActiveRecord models in that it also supports validations and can be useful, for example, to reduce database complexity in some cases, by removing associations and therefore tables. 
-
-In particular, by using Tableless Model, you could save tables whenever you have one to one associations between a parent model and a child model containing options, settings, debugging information or any other collection of attributes that belongs uniquely to a single parent object.
-
-Removing database tables also means reducing the number of queries to fetch associations, therefore it can also help a little bit with performance.
+* Reddit
+* Digg
+* Twitter
+* Facebook (Share * Like)
+* LinkedIn
+* Google Buzz
+* StumbleUpon
 
 
 == Installation
 
-Tableless Model is available as a Rubygem:
+Just..
+		gem install share_counts
 
-		gem install tableless_model
-
-		(current version: 0.0.7)
-		
+and then require/bundle it.
 
 == Usage
 
-For example's sake, say we have these two models:
+You can check each service individually...
 
-1)
-
-		class Page < ActiveRecord::Base
-
-			# having columns such as id, title, etc
-	
-			has_one :seo_options
-	
-		end
-
-2) 
-
-		class SeoOptions < ActiveRecord::Base
-
-			set_table_name "seo_options"
-
-			# having columns such as id, title_tag, meta_description, meta_keywords, 
-			# noindex, nofollow, noarchive, page_id
-
-			belongs_to :page
-
-		end
-
-
-So that each instance of Page has its own SEO options, and these options/settings only belong to a page, so we have a one to one association, and our database will have the tables "pages", and "seo_options".
-
-Using Tableless Model, we could remove the association and the table seo_options altogether, by storing those options in a column of the pages table, in a YAML-serialized form. So the models become:
-
-
-1)
-
-		class Page < ActiveRecord::Base
-
-			# having columns such as id, title, seo, etc
-
-			has_tableless :seo => SeoOptions
-	
-		end
-
-2) 
-
-		class SeoOptions < ActiveRecord::TablelessModel
-
-		  attribute :title_tag,         :type => :string,  :default => "default title tag"
-		  attribute :meta_description,  :type => :string,  :default => ""  
-		  attribute :meta_keywords,     :type => :string,  :default => ""  
-		  attribute :noindex,           :type => :boolean, :default => false 
-		  attribute :nofollow,          :type => :boolean, :default => false 
-		  attribute :noarchive,         :type => :boolean, :default => false 
-
-		end
-
-
-That's it. 
-
-When you now create an instance of SeoOptions, you can get and set its attributes as you would do with a normal model:
-
-		seo_options = SeoOptions.new
-		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=false nofollow=false noindex=false
-		 	title_tag="default title tag">
-
-		seo_options.title_tag
-			=> "default title tag"
-
-		seo_options.title_tag = "new title tag"
-			=> "new title tag"
-			
-Note that inspect	shows the properties of the Tableless Model in the same way it does for ActiveRecord models.
-Of course, you can also override the default values for the attributes when creating a new instance:
-
-		seo_options = SeoOptions.new( :title_tag => "a different title tag" )
-		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=false nofollow=false noindex=false 
-			title_tag="a different title tag">
-
-Now, if you have used the has_tabless macro in the parent class, Page, each instance of Page will store directly its YAML-serialized SEO settings in the column named "seo". 
-
-		page = Page.new
-		
-		page.seo
-		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=false nofollow=false noindex=false
-		 	title_tag="default title tag">
-
-		page.seo.title_tag = "changed title tag"
-		 	=> <#SeoOptions meta_description="" meta_keywords="" noarchive=false nofollow=false noindex=false
-		 	title_tag="changed title tag">
-
-
-And this is how the content of the serialized column would look like in the database if you saved the changes as in the example
-
-		--- !map:SeoOptions 
-		noarchive: false
-		meta_description: 
-		meta_keywords: 
-		nofollow: false
-		title_tag: "changed title tag"
-		noindex: false
-
-
-== Validations
-
-Tableless Model uses the Validatable gem to support validations methods and callbacks (such as "after_validation").
-Note: it currently uses the Rails 2.x syntax only.
-
-Example:
-
-
-		class SeoOptions < ActiveRecord::TablelessModel
-
-		  attribute :title_tag,         :type => :string,  :default => ""
-		  attribute :meta_description,  :type => :string,  :default => ""  
-		  attribute :meta_keywords,     :type => :string,  :default => ""  
-		  attribute :noindex,           :type => :boolean, :default => false 
-		  attribute :nofollow,          :type => :boolean, :default => false 
-		  attribute :noarchive,         :type => :boolean, :default => false 
-
-			validates_presence_of :meta_keywords
-			
-		end
-
-
-Testing:
-
-		x = SeoOptionsSettings.new
-		 => <#SeoOptions meta_description="" meta_keywords="" noarchive=false nofollow=false noindex=false 
-		title_tag="">
-
-		x.valid?
-		 => false
-		
-		x.meta_keywords = "test"
-		 => "test"
-		
-		x.valid?
+		ruby-1.9.2-p0 :004 > require "share_counts"
 		 => true 
+		
+		# Reddit		
+		ruby-1.9.2-p0 :005 > ShareCounts.reddit "http://vitobotta.com/awesomeprint-similar-production/"
+		 => 5 
+		
+		# Digg
+		ruby-1.9.2-p0 :006 > ShareCounts.digg "http://vitobotta.com/awesomeprint-similar-production/"
+		 => 1 
+		
+		# LinkedIn
+		ruby-1.9.2-p0 :007 > ShareCounts.linkedin "http://vitobotta.com/awesomeprint-similar-production/"
+		 => 2 
+		
+		# Twitter
+		ruby-1.9.2-p0 :008 > ShareCounts.twitter "http://vitobotta.com/awesomeprint-similar-production/"
+		 => 2 
+		
+		# StumbleUpon
+		ruby-1.9.2-p0 :009 > ShareCounts.stumbleupon "http://vitobotta.com/awesomeprint-similar-production/"
+		 => 0 
+		
+		# Google Buzz
+		ruby-1.9.2-p0 :010 > ShareCounts.googlebuzz "http://vitobotta.com/awesomeprint-similar-production/"
+		 => 0 
+		
+		# Facebook (share button)
+		ruby-1.9.2-p0 :011 > ShareCounts.facebook "http://vitobotta.com/awesomeprint-similar-production/"
+		 => 1 
+		
+		# Facebook (likes)
+		ruby-1.9.2-p0 :012 > ShareCounts.fblike "http://vitobotta.com/awesomeprint-similar-production/"
+		 => 0
+
+or you can get 'em all in one shot:
+
+		ruby-1.9.2-p0 :017 > ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/"
+		 => {:reddit=>5, :digg=>1, :twitter=>2, :facebook=>1, :fblike=>0, :linkedin=>2, :googlebuzz=>0, :stumbleupon=>0}
+
+
+Additionally, for Facebook you can get shares and likes at once:
+
+		ruby-1.9.2-p0 :018 > ShareCounts.fball "http://vitobotta.com/awesomeprint-similar-production/"
+		 => {"share_count"=>1, "like_count"=>0}
+
 
 
 == TODO
 
-* Support for associations
+* specs
+* exception handling? 
 
 
 == Authors
