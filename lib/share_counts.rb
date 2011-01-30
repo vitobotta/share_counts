@@ -82,7 +82,7 @@ module ShareCounts
   end
 
   def self.selected url, selections
-    selections.map{|name| name.downcase}.select{|name| supported_networks.include? name}.inject({}) {
+    selections.map{|name| name.downcase}.select{|name| supported_networks.include? name.to_s}.inject({}) {
        |r, c| r[c.to_sym] = ShareCounts.send(c, url); r }
   end
 

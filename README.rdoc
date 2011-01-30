@@ -1,6 +1,8 @@
 = Share Counts
 
 This gem makes it super easy to check how many times a page/URL has been shared on social networks and aggregators.
+It also supports caching with Redis both to speed things up and to reduce the risk of problems with API rate limits.
+
 Services currently supported:
 
 * Reddit
@@ -19,7 +21,7 @@ Just..
 
 and then require/bundle it.
 
-== Usage
+== Basic Usage
 
 You can check each service individually...
 
@@ -73,6 +75,75 @@ Additionally, for Facebook you can get shares and likes at once:
 	ruby-1.9.2-p0 :018 > ShareCounts.fball "http://vitobotta.com/awesomeprint-similar-production/"
 	 => {"share_count"=>1, "like_count"=>0}
 
+
+You can also specify which networks you want to query at once:
+
+	ruby-1.9.2-p0 :004 > ShareCounts.selected "http://vitobotta.com/awesomeprint-similar-production/", [:reddit, :twitter]
+	 => {:reddit=>5, :twitter=>2}
+
+Sometimes APIs may not be available or may be having issues (or there's some rate limit and you are making too many requests in a short time). When something goes wrong while querying a service, even for a max of 3 attempts, the share count for that service is left as set to nil. This way you can easily know whether a share count could be obtained or updated for a given URL, but simply checking if the share count is nil.
+
+	ruby-1.9.2-p0 :002 > ShareCounts.selected "http://vitobotta.com/awesomeprint-similar-production/", [:reddit, :twitter]
+	Making request to reddit...
+	Failed 1 attempt(s)
+	Failed 2 attempt(s)
+	Failed 3 attempt(s)
+	Something went wrong with reddit: can't convert nil into String
+	Making request to twitter...
+	 => {:reddit=>nil, :twitter=>2}
+
+
+== CACHING
+
+Depending on how and in which kind of applications you may want to use this gem, if you make too many requests in a short time some APIs may fail because of rate limits. Plus, some API may respond too slowly at times or just be down (Digg seems to be the least reliable of the group so far!). So the gem also supports caching with Redis. 
+
+It's very easy to enable and use the caching:
+
+	ruby-1.9.2-p0 :002 > require 'benchmark'
+	 => true 
+
+	# Enabling caching
+	ruby-1.9.2-p0 :003 > ShareCounts.use_cache
+	 => #<Redis client v2.1.1 connected to redis://127.0.0.1:6379/0 (Redis v2.0.3)> 
+
+
+	# First run, values are not cached
+	ruby-1.9.2-p0 :004 > Benchmark.realtime { ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/" }
+	Making request to reddit...
+	Making request to digg...
+	Making request to twitter...
+	Making request to facebook...
+	Making request to fblike...
+	Making request to linkedin...
+	Making request to googlebuzz...
+	Making request to stumbleupon...
+	 => 3.7037899494171143 
+
+
+	# Now values are cached
+	ruby-1.9.2-p0 :005 > Benchmark.realtime { ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/" }
+	Loaded reddit count from cache
+	Loaded digg count from cache
+	Loaded twitter count from cache
+	Loaded facebook count from cache
+	Loaded fblike count from cache
+	Loaded linkedin count from cache
+	Loaded googlebuzz count from cache
+	Loaded stumbleupon count from cache
+	 => 0.003225088119506836
+
+
+By default, the gem connects to the Redis store listening on 127.0.0.1:6379, but you can override these settings when you enable the caching:
+
+	ruby-1.9.2-p0 :002 > ShareCounts.use_cache :host => "192.168.10.85", :port => 7500
+	 => #<Redis client v2.1.1 connected to redis://192.168.10.85:7500/0 (Redis v2.0.3)>	
+
+Or, if you are already using the "redis" gem in your application and therefore already have initialised a connection to the Redis store, you can either pass the reference to that instance:
+
+	ruby-1.9.2-p0 :003 > ShareCounts.use_cache :redis_store => YOUR_REFERENCE_TO_REDIS_STORE
+	 => #<Redis client v2.1.1 connected to redis://127.0.0.1:6379/0 (Redis v2.0.3)>
+
+or just set the global variable $share_counts_cache to that reference.
 
 
 == TODO
