@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    share_counts (0.0.1)
+    share_counts (0.0.3)
       json
       nokogiri
       redis

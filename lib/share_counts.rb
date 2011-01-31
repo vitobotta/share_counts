@@ -5,8 +5,8 @@ require File.expand_path(File.dirname(__FILE__) + "/share_counts/caching")
 
 module ShareCounts
 
-  extend ShareCountsCommon
-  extend ShareCountsCaching
+  extend Common
+  extend Caching
 
   def self.supported_networks
     %w(reddit digg twitter facebook fblike linkedin googlebuzz stumbleupon)
