@@ -99,7 +99,7 @@ module ShareCounts
     # 
     def extract_count *args
       json = args.shift
-      result = [args.first.first, args.first.last].last.split("/").inject( json.is_a?(Array) ? json.first : json ) { 
+      result = args.first.to_a.flatten.last.split("/").inject( json.is_a?(Array) ? json.first : json ) { 
         |r, c| r[c].is_a?(Array) ? r[c].first : r[c] 
       }
     end
