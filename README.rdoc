@@ -1,3 +1,6 @@
+Original blog post (January 31, 2011)
+http://vitobotta.com/share-counts-gem-social-networks/
+
 = Share Counts
 
 This gem makes it super easy to check how many times a page/URL has been shared on social networks and aggregators.
