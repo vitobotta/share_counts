@@ -51,7 +51,7 @@ module ShareCounts
       attempts = 1
 
       begin
-        timeout(2) do
+        timeout(3) do
           url         = args.shift
           params      = args.inject({}) { |r, c| r.merge! c }
           response    = RestClient.get url,  { :params => params }

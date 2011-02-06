@@ -6,8 +6,8 @@ module ShareCounts
   extend Common
   extend Caching
 
-  def self.extrac_count url
-    extract_info url
+  def self.extract_count *args
+    extract_info *args
   end
 
   def self.supported_networks
