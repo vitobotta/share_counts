@@ -98,9 +98,11 @@ module ShareCounts
     # 
     # 
     def extract_info *args
-      json = args.shift
-      result = args.first.to_a.flatten.last.split("/").inject( json.is_a?(Array) ? json.first : json ) { 
-        |r, c| r[c].is_a?(Array) ? r[c].first : r[c] 
+      json    = args.shift
+      options = args.inject({}) {|r,c| r.merge(c)}
+
+      result = options[:selector].split("/").inject( json.is_a?(Array) ? json.first : json ) { |r, c|
+        (r[c].is_a?(Array) && !options[:preserve_arrays]) ? r[c].first : r[c] 
       }
     end
 
