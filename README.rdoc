@@ -85,6 +85,13 @@ You can also specify which networks you want to query at once:
 
 	ruby-1.9.2-p0 :004 > ShareCounts.selected "http://vitobotta.com/awesomeprint-similar-production/", [:reddit, :twitter]
 	 => {:reddit=>5, :twitter=>2}
+	
+	 
+For Reddit, you can also get the share counts for all the known URLs from a given domain:
+
+  ruby-1.9.2-head :009 > ShareCounts::Reddit.by_domain "vitobotta.com"
+  Redis caching is disabled - Making request to reddit-domain...
+  
 
 Sometimes APIs may not be available or may be having issues (or there's some rate limit and you are making too many requests in a short time). When something goes wrong while querying a service, even for a max of 3 attempts, the share count for that service is left as set to nil. This way you can easily know whether a share count could be obtained or updated for a given URL, but simply checking if the share count is nil.
 
