@@ -20,10 +20,11 @@ module ShareCounts
       try("reddit-domain", domain) {
         urls = extract_info from_json("http://www.reddit.com/domain/#{domain}.json"), :selector => "data/children", :preserve_arrays => true 
         urls.inject({}) do |result, url_all_info|
-          url_data    = extract_info(url_all_info, :selector => "data").select{ |key, value| ["permalink", "score", "url"].include? key } 
+          url_data    = extract_info(url_all_info, :selector => "data").reject{ |key, value| !["permalink", "score", "url"].include? key } 
           url         = url_data.delete "url"
+          p url
           result[url] = url_data
-
+          
           result
         end
       }
