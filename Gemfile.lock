@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    share_counts (0.0.3)
+    share_counts (0.0.5)
       json
       nokogiri
       redis
@@ -24,9 +24,5 @@ PLATFORMS
 
 DEPENDENCIES
   ansi
-  json
   minitest
-  nokogiri
-  redis
-  rest-client
   share_counts!
