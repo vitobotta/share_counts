@@ -51,7 +51,7 @@ module ShareCounts
       attempts = 1
 
       begin
-        timeout(2) do
+        timeout(3) do
           url         = args.shift
           params      = args.inject({}) { |r, c| r.merge! c }
           response    = RestClient.get url,  { :params => params }
@@ -97,10 +97,12 @@ module ShareCounts
     # so to extract the share count.
     # 
     # 
-    def extract_count *args
-      json = args.shift
-      result = args.first.to_a.flatten.last.split("/").inject( json.is_a?(Array) ? json.first : json ) { 
-        |r, c| r[c].is_a?(Array) ? r[c].first : r[c] 
+    def extract_info *args
+      json    = args.shift
+      options = args.inject({}) {|r,c| r.merge(c)}
+
+      result = options[:selector].split("/").inject( json.is_a?(Array) ? json.first : json ) { |r, c|
+        (r[c].is_a?(Array) && !options[:preserve_arrays]) ? r[c].first : r[c] 
       }
     end
 

@@ -1,12 +1,14 @@
-%w(rest_client json nokogiri redis timeout).each{|x| require x}
-
-require File.expand_path(File.dirname(__FILE__) + "/share_counts/common")
-require File.expand_path(File.dirname(__FILE__) + "/share_counts/caching")
+%w( rest_client json nokogiri redis timeout ).each{ |lib| require lib }
+%w( caching common reddit ).each{ |file| load File.expand_path( File.join( File.dirname( __FILE__ ), "share_counts", "#{file}.rb" ) ) } # TODO: replace load with require
 
 module ShareCounts
 
   extend Common
   extend Caching
+
+  def self.extract_count *args
+    extract_info *args
+  end
 
   def self.supported_networks
     %w(reddit digg twitter facebook fblike linkedin googlebuzz stumbleupon)
@@ -17,6 +19,10 @@ module ShareCounts
       extract_count from_json( "http://www.reddit.com/api/info.json", :url => url ), 
         :selector => "data/children/data/score" 
     }
+  end
+
+  def self.reddit_with_permalink url
+    ShareCounts::Reddit.info_for url
   end
 
   def self.digg url
