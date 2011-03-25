@@ -87,7 +87,15 @@ You can also specify which networks you want to query at once:
 	 => {:reddit=>5, :twitter=>2}
 	
 	 
-For Reddit, you can also get the share counts for all the known URLs from a given domain:
+For Reddit, you can also 
+
+1) get both score and permalink for a given URL:
+
+  ruby-1.9.2-head :004 > ShareCounts.reddit_with_permalink "http://vitobotta.com/faster-internet-browsing-alternative-dns-servers-fast-local-cache-bind/"
+  Redis caching is disabled - Making request to reddit-details...
+   => {"score"=>22, "permalink"=>"/r/apple/comments/fmkxz/faster_internet_browsing_with_alternative_dns/"}
+
+2) get the share counts for all the known URLs from a given domain:
 
   ruby-1.9.2-head :009 > ShareCounts::Reddit.by_domain "vitobotta.com"
   Redis caching is disabled - Making request to reddit-domain...

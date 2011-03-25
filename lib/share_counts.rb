@@ -21,6 +21,10 @@ module ShareCounts
     }
   end
 
+  def self.reddit_with_permalink url
+    ShareCounts::Reddit.info_for url
+  end
+
   def self.digg url
     try("digg", url) {
       extract_count from_json( "http://services.digg.com/2.0/story.getInfo", :links => url ), 
