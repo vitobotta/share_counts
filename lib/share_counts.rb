@@ -34,7 +34,7 @@ module ShareCounts
 
   def self.twitter url
     try("twitter", url) {
-      extract_count from_json( "http://urls.api.twitter.com/1/urls/count.json", :url => url, :callback => "x" ), 
+      extract_count from_json( "http://urls.api.twitter.com/1/urls/count.json", :url => url), 
         :selector => "count"
     }
   end
