@@ -17,7 +17,7 @@ module ShareCounts
     # NOTE: caching will be skipped if the block fails.
     # 
     # 
-    def try service, url, &block
+    def try service, url, raise_exceptions = false, &block
       cache_key = "ShareCounts||#{service}||#{url}"
       if cache_enabled?
         if result = from_redis(cache_key)
@@ -33,6 +33,7 @@ module ShareCounts
       end
     rescue Exception => e
       puts "Something went wrong with #{service}: #{e}"
+      raise e if raise_exceptions
     end
 
 
@@ -51,7 +52,7 @@ module ShareCounts
       attempts = 1
 
       begin
-        timeout(3) do
+        timeout(5) do
           url         = args.shift
           params      = args.inject({}) { |r, c| r.merge! c }
           response    = RestClient.get url,  { :params => params }

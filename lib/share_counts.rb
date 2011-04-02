@@ -1,4 +1,4 @@
-%w( rest_client json nokogiri redis timeout ).each{ |lib| require lib }
+%w( rubygems rest_client json nokogiri redis timeout ).each{ |lib| require lib }
 %w( caching common reddit ).each{ |file| load File.expand_path( File.join( File.dirname( __FILE__ ), "share_counts", "#{file}.rb" ) ) } # TODO: replace load with require
 
 module ShareCounts
@@ -14,69 +14,69 @@ module ShareCounts
     %w(reddit digg twitter facebook fblike linkedin googlebuzz stumbleupon)
   end
 
-  def self.reddit url
-    try("reddit", url) {
+  def self.reddit url, raise_exceptions = false
+    try("reddit", url, raise_exceptions) {
       extract_count from_json( "http://www.reddit.com/api/info.json", :url => url ), 
         :selector => "data/children/data/score" 
     }
   end
 
-  def self.reddit_with_permalink url
-    ShareCounts::Reddit.info_for url
+  def self.reddit_with_permalink url, raise_exceptions = false
+    ShareCounts::Reddit.info_for url, raise_exceptions
   end
 
-  def self.digg url
-    try("digg", url) {
+  def self.digg url, raise_exceptions = false
+    try("digg", url, raise_exceptions) {
       extract_count from_json( "http://services.digg.com/2.0/story.getInfo", :links => url ), 
         :selector => "stories/diggs"
     }
   end
 
-  def self.twitter url
-    try("twitter", url) {
+  def self.twitter url, raise_exceptions = false
+    try("twitter", url, raise_exceptions) {
       extract_count from_json( "http://urls.api.twitter.com/1/urls/count.json", :url => url), 
         :selector => "count"
     }
   end
 
-  def self.facebook url
-    try("facebook", url) {
+  def self.facebook url, raise_exceptions = false
+    try("facebook", url, raise_exceptions) {
       extract_count from_json("http://api.facebook.com/restserver.php", :v => "1.0", :method => "links.getStats",  
        :urls => url, :callback => "fb_sharepro_render", :format => "json" ), :selector => "share_count"
     }
   end
 
-  def self.fblike url
-    try("fblike", url) {
+  def self.fblike url, raise_exceptions = false
+    try("fblike", url, raise_exceptions) {
       extract_count from_json("http://api.facebook.com/restserver.php", :v => "1.0", :method => "links.getStats",  
        :urls => url, :callback => "fb_sharepro_render", :format => "json" ), :selector => "like_count"
     }
   end
 
-  def self.fball url 
-    try("fball", url) {
+  def self.fball url, raise_exceptions = false
+    try("fball", url, raise_exceptions) {
       json = from_json("http://api.facebook.com/restserver.php", :v => "1.0", 
           :method => "links.getStats", :urls => url, :callback => "fb_sharepro_render", :format => "json" 
        ).first.select{ |k,v| ["share_count", "like_count"].include? k }
     }
   end
 
-  def self.linkedin url 
-    try("linkedin", url) {
+  def self.linkedin url, raise_exceptions = false 
+    try("linkedin", url, raise_exceptions) {
       extract_count from_json("http://www.linkedin.com/cws/share-count", 
         :url => url, :callback => "IN.Tags.Share.handleCount" ), :selector => "count"
     }
   end
 
-  def self.googlebuzz url 
-    try("googlebuzz", url) {
+  def self.googlebuzz url, raise_exceptions = false 
+    try("googlebuzz", url, raise_exceptions) {
       from_json("http://www.google.com/buzz/api/buzzThis/buzzCounter", 
         :url => url, :callback => "google_buzz_set_count" )[url]
     }
   end
 
-  def self.stumbleupon url 
-    try("stumbleupon", url) {
+  def self.stumbleupon url, raise_exceptions = false 
+    try("stumbleupon", url, raise_exceptions) {
       Nokogiri::HTML.parse( 
           make_request("http://www.stumbleupon.com/badge/embed/5/", :url => url ) 
         ).xpath( "//body/div/ul/li[2]/a/span").text.to_i

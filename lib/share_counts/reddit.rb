@@ -3,8 +3,8 @@ module ShareCounts
     extend Common
     extend Caching
     
-    def self.info_for url 
-      try("reddit-details", url) {
+    def self.info_for url, raise_exceptions = false
+      try("reddit-details", url, raise_exceptions) {
         data = extract_info from_json( "http://www.reddit.com/api/info.json", :url => url ), :selector => "data/children/data" 
 
         data.reject{ |key, value| 
@@ -16,8 +16,8 @@ module ShareCounts
       }
     end
     
-    def self.by_domain domain
-      try("reddit-domain", domain) {
+    def self.by_domain domain, raise_exceptions = false
+      try("reddit-domain", domain, raise_exceptions) {
         urls = extract_info from_json("http://www.reddit.com/domain/#{domain}.json"), :selector => "data/children", :preserve_arrays => true 
         urls.inject({}) do |result, url_all_info|
           url_data    = extract_info(url_all_info, :selector => "data").reject{ |key, value| !["permalink", "score", "url"].include? key } 
