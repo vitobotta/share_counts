@@ -169,11 +169,6 @@ And, if needed, your can clear the cached values:
 
 However the gem will namespace all the keys as you can see, in case you also use Redis for something else in the same app.
 
-== TODO
-
-* specs
-
-
 == Authors
 
 * Vito Botta ( http://vitobotta.com )
