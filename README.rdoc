@@ -11,7 +11,7 @@ Services currently supported:
 * Reddit
 * Digg
 * Twitter
-* Facebook (Share * Like)
+* Facebook
 * LinkedIn
 * Google Buzz
 * StumbleUpon
