@@ -6,7 +6,7 @@ module ShareCounts
     def self.info_for url, raise_exceptions = false
       try("reddit-details", url, raise_exceptions) {
         data = extract_info from_json( "http://www.reddit.com/api/info.json", :url => url ), :selector => "data/children/data" 
-        data.select{|k, v| ["permalink", "score"].include? k }.map{|x| { x[0] => x[1] } }.to_hash
+        ShareCounts.to_merged_hash(data.select{|k, v| ["permalink", "score"].include? k }.map{|x| { x[0] => x[1] } })
       }
     end
     

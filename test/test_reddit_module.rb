@@ -2,12 +2,12 @@ require File.expand_path(File.join(File.dirname(__FILE__), "test_helper"))
 
 class RedditModuleTest < ActiveSupport::TestCase
   test ".info_for should return a hash with score and permalink for the given url" do
-    stub_request(:get, Reddit.api).with(:query => Reddit.params.to_hash).to_return(:body => Reddit.url_info_json)
+    stub_request(:get, Reddit.api).with(:query => to_merged_hash(Reddit.params)).to_return(:body => Reddit.url_info_json)
     assert_equal({ "permalink" => "/r/ruby/comments/ffik5/geeky_cv_d/", "score" => 30}, ShareCounts::Reddit.info_for(SOME_URL))
   end
 
   test ".info_for with raise_exceptions=true should raise exception" do
-    stub_request(:get, Reddit.api).with(:query => Reddit.params.to_hash).to_raise(Exception)
+    stub_request(:get, Reddit.api).with(:query => to_merged_hash(Reddit.params)).to_raise(Exception)
     assert_raise(Exception) { ShareCounts::Reddit.info_for(SOME_URL, true) }
   end
   

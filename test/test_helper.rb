@@ -19,6 +19,10 @@ class ActiveSupport::TestCase
     $stdin  = @stdin  =  STDIN
     $stdout = @stdout =  STDOUT
   end
+  
+  def to_merged_hash array
+    ShareCounts.to_merged_hash array
+  end
 end
 
 class Reddit

@@ -1,6 +1,10 @@
 module ShareCounts
   module Common
 
+    def to_merged_hash array
+      array.inject({}){|r, c| r.merge!(c); r }
+    end
+
     private
 
     # 
