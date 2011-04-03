@@ -46,13 +46,9 @@ You can check each service individually...
 	ruby-1.9.2-p0 :005 > ShareCounts.twitter url
 	 => 2 
 	
-	# Facebook shares
+	# Facebook 
 	ruby-1.9.2-p0 :006 > ShareCounts.facebook url
 	 => 1 
-	
-	# Facebook likes
-	ruby-1.9.2-p0 :007 > ShareCounts.fblike url
-	 => 0 
 	
 	# LinkedIn
 	ruby-1.9.2-p0 :008 > ShareCounts.linkedin url
@@ -70,13 +66,8 @@ You can check each service individually...
 or you can get 'em all in one shot:
 
 	ruby-1.9.2-p0 :017 > ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/"
-	 => {:reddit=>5, :digg=>1, :twitter=>2, :facebook=>1, :fblike=>0, :linkedin=>2, :googlebuzz=>0, :stumbleupon=>0}
+	 => {:reddit=>5, :digg=>1, :twitter=>2, :facebook=>1, :linkedin=>2, :googlebuzz=>0, :stumbleupon=>0}
 
-
-Additionally, for Facebook you can get shares and likes at once:
-
-	ruby-1.9.2-p0 :018 > ShareCounts.fball "http://vitobotta.com/awesomeprint-similar-production/"
-	 => {"share_count"=>1, "like_count"=>0}
 
 
 You can also specify which networks you want to query at once:
@@ -131,7 +122,6 @@ It's very easy to enable and use the caching:
 	Making request to digg...
 	Making request to twitter...
 	Making request to facebook...
-	Making request to fblike...
 	Making request to linkedin...
 	Making request to googlebuzz...
 	Making request to stumbleupon...
@@ -144,7 +134,6 @@ It's very easy to enable and use the caching:
 	Loaded digg count from cache
 	Loaded twitter count from cache
 	Loaded facebook count from cache
-	Loaded fblike count from cache
 	Loaded linkedin count from cache
 	Loaded googlebuzz count from cache
 	Loaded stumbleupon count from cache
@@ -168,13 +157,13 @@ Similarly, by default cached share counts expire in two minutes, but you can ove
 You can also get an hash having all the cached URLs with their share counts:
 
 	ruby-1.9.2-p0 :009 > ShareCounts.cached
-	 => {"http://vitobotta.com/awesomeprint-similar-production/"=>{:fblike=>0, :stumbleupon=>0, :linkedin=>2, :googlebuzz=>0, :facebook=>1, :twitter=>2, :digg=>1, :reddit=>5}}
+	 => {"http://vitobotta.com/awesomeprint-similar-production/"=>{:stumbleupon=>0, :linkedin=>2, :googlebuzz=>0, :facebook=>1, :twitter=>2, :digg=>1, :reddit=>5}}
 
 
 And, if needed, your can clear the cached values:
 
 	ruby-1.9.2-p0 :010 > ShareCounts.clear_cache
-	 => ["ShareCounts||fblike||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||stumbleupon||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||linkedin||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||googlebuzz||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||facebook||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||twitter||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||digg||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||reddit||http://vitobotta.com/awesomeprint-similar-production/"] 
+	 => ["ShareCounts||stumbleupon||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||linkedin||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||googlebuzz||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||facebook||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||twitter||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||digg||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||reddit||http://vitobotta.com/awesomeprint-similar-production/"] 
 	ruby-1.9.2-p0 :011 > ShareCounts.cached
 	 => {
 
