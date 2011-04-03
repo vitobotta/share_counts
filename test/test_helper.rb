@@ -4,8 +4,22 @@ include WebMock::API
 
 require File.join(File.dirname(__FILE__), "../lib/share_counts")
 
-SOME_URL      = "http://vitobotta.com/cv-resume/"
-SOME_PARAMS       = [ :url => "http://vitobotta.com/cv-resume/", :callback => "myCallback" ]
+SOME_URL    = "http://vitobotta.com/cv-resume/" 
+SOME_PARAMS = [ :url => "http://vitobotta.com/cv-resume/", :callback => "myCallback" ] 
+
+class ActiveSupport::TestCase
+  setup do
+    $stderr = @stderr = StringIO.new
+    $stdin  = @stdin  = StringIO.new
+    $stdout = @stdout = StringIO.new
+  end
+
+  def teardown
+    $stderr = @stderr =  STDERR
+    $stdin  = @stdin  =  STDIN
+    $stdout = @stdout =  STDOUT
+  end
+end
 
 class Array
   def to_hash
@@ -22,6 +36,12 @@ class Reddit
   end
   def self.json
     @json ||= File.read(File.join(File.dirname(__FILE__), "reddit.json"))
+  end
+  def self.url_info_json
+    @url_info_json ||= File.read(File.join(File.dirname(__FILE__), "reddit-url-info.json"))
+  end
+  def self.by_domain_json
+    @by_domain_json ||= File.read(File.join(File.dirname(__FILE__), "reddit-by-domain.json"))
   end
   def self.selector
     "data/children/data/score"

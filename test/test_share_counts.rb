@@ -1,18 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "test_helper"))
 
 class ShareCountsTest < ActiveSupport::TestCase
-  setup do
-    $stderr = @stderr = StringIO.new
-    $stdin  = @stdin  = StringIO.new
-    $stdout = @stdout = StringIO.new
-  end
-  
-  def teardown
-    $stderr = @stderr =  STDERR
-    $stdin  = @stdin  =  STDIN
-    $stdout = @stdout =  STDOUT
-  end
-  
   test ".supported_networks returns the supported networks" do
     assert_equal(%w(reddit digg twitter facebook fblike linkedin googlebuzz stumbleupon).sort, ShareCounts.supported_networks.sort)
   end
@@ -164,5 +152,4 @@ class ShareCountsTest < ActiveSupport::TestCase
     stub_request(:get, StumbleUpon.api).with(:query => StumbleUpon.params.to_hash).to_raise(Exception)
     assert_raise(Exception) { ShareCounts.stumbleupon(SOME_URL, true) }
   end
-  
 end
