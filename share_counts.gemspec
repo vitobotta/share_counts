@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.add_dependency "json"
   s.add_dependency "nokogiri"
   s.add_dependency "redis"
+  s.add_dependency "SystemTimer"
 
   s.add_development_dependency "webmock"
   s.add_development_dependency "activesupport"
