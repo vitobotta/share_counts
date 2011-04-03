@@ -1,4 +1,4 @@
-%w(rubygems active_support webmock/test_unit stringio system_timer).each{|g| require g}
+%w(rubygems active_support webmock/test_unit stringio).each{|g| require g}
 
 include WebMock::API
 
