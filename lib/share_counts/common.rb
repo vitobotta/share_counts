@@ -84,7 +84,7 @@ module ShareCounts
     # 
     # 
     def from_json *args
-      JSON.parse make_request *args
+      JSON.parse(make_request(*args))
     end
 
     # 
