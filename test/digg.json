@@ -1,0 +1,59 @@
+{
+    "count": 1, 
+    "timestamp": 1301842122, 
+    "cursor": "", 
+    "version": "2.0", 
+    "stories": [
+        {
+            "status": "upcoming", 
+            "permalink": "http://digg.com/news/technology/geeky_cv_resume_d", 
+            "description": "It's a not a new idea, I've seen something similar some time ago -I think it was in Perl but am not sure, but I remembered it today while updating my CV, so I thought I'd have a short, geekier version too :D", 
+            "title": "Geeky CV / Resume :D", 
+            "url": "http://vitobotta.com/cv-resume/", 
+            "story_id": "20110205002738:141560b8-f74a-4388-9c95-d8638ca4a003", 
+            "diggs": 1, 
+            "submiter": {
+                "username": "vitobotta", 
+                "about": "I am a passionate developer with 10+ years commercial experience and 360\u00b0 skills in the design, development and maintenance of modern, user centred as well as enterprise-scale web applications on both *nix and Microsoft platforms, with a strong interest in performance, scalability, security and search engine optimisation. \n\nBesides work, I live in London with my wife and our little baby daughter. I love boxing, martial arts, and good food!", 
+                "user_id": "4341699", 
+                "name": "Vito Botta", 
+                "icons": [
+                    "http://cdn1.diggstatic.com/user/4341699/c.4057865463.png", 
+                    "http://cdn1.diggstatic.com/user/4341699/h.4057865463.png", 
+                    "http://cdn2.diggstatic.com/user/4341699/m.4057865463.png", 
+                    "http://cdn1.diggstatic.com/user/4341699/l.4057865463.png", 
+                    "http://cdn2.diggstatic.com/user/4341699/p.4057865463.png", 
+                    "http://cdn1.diggstatic.com/user/4341699/s.4057865463.png", 
+                    "http://cdn1.diggstatic.com/user/4341699/r.4057865463.png"
+                ], 
+                "gender": "m", 
+                "diggs": 34, 
+                "comments": 31, 
+                "followers": 11, 
+                "location": "London", 
+                "following": 8, 
+                "submissions": 32, 
+                "icon": "http://cdn1.diggstatic.com/user/4341699/p.4057865463.png"
+            }, 
+            "comments": 0, 
+            "dugg": 0, 
+            "topic": {
+                "clean_name": "technology", 
+                "name": "Technology"
+            }, 
+            "promote_date": null, 
+            "activity": [], 
+            "date_created": 1296865658, 
+            "thumbnails": {
+                "large": "http://cdn1.diggstatic.com/story/geeky_cv_resume_d/l.png", 
+                "small": "http://cdn2.diggstatic.com/story/geeky_cv_resume_d/s.png", 
+                "medium": "http://cdn1.diggstatic.com/story/geeky_cv_resume_d/m.png", 
+                "thumb": "http://cdn1.diggstatic.com/story/geeky_cv_resume_d/t.png"
+            }
+        }
+    ], 
+    "authorized": 0, 
+    "data": "stories", 
+    "method": "story.getInfo", 
+    "user": null
+}
