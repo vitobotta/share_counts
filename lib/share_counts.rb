@@ -1,5 +1,5 @@
 %w( rubygems rest_client json nokogiri redis ).each{ |lib| require lib }
-%w( caching common reddit ).each{ |file| load File.expand_path( File.join( File.dirname( __FILE__ ), "share_counts", "#{file}.rb" ) ) } # TODO: replace load with require
+%w( array caching common reddit ).each{ |file| load File.expand_path( File.join( File.dirname( __FILE__ ), "share_counts", "#{file}.rb" ) ) } # TODO: replace load with require
 
 module ShareCounts
 

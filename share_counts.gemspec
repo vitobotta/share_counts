@@ -4,7 +4,7 @@ $:.push File.expand_path("../lib/share_counts", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "share_counts"
-  s.version     = "0.0.9"
+  s.version     = "0.1.0"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Vito Botta"]
   s.email       = ["vito@botta.name"]
