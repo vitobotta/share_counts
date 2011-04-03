@@ -71,11 +71,12 @@ class ShareCountsTest < ActiveSupport::TestCase
   end
   
   
-  test ".from_json converts the JSON returned by a remote service to a hash - no callback specified" do
-    stub_request(:get, A_REMOTE_URL).to_return(:body => "{\"a\":1,\"b\":2}")
+  test ".from_json parses the JSON response returned by a remote service" do
+    stub_request(:get, A_REMOTE_URL).to_return(:body => "{\"a\":1,\"b\":2}").then.to_return(:body => "[\"a\", \"b\", 1, 2]")
     stub_request(:get, A_REMOTE_URL).with(:query => SOME_PARAMS_HASH).to_return(:body => "myCallback({\"a\":1,\"b\":2})")
 
     assert_equal({ "a" => 1, "b" => 2 }, ShareCounts.send(:from_json, A_REMOTE_URL))
+    assert_equal(["a", "b", 1, 2], ShareCounts.send(:from_json, A_REMOTE_URL))
     assert_equal({ "a" => 1, "b" => 2 }, ShareCounts.send(:from_json, A_REMOTE_URL, *SOME_PARAMS ))
     assert_equal(0, @stdout.string.split("\n").size)
   end
