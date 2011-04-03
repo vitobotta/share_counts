@@ -11,7 +11,7 @@ module ShareCounts
   end
 
   def self.supported_networks
-    %w(reddit digg twitter facebook fblike linkedin stumbleupon googlebuzz)
+    %w(reddit digg twitter facebook linkedin stumbleupon googlebuzz)
   end
   
   def self.reddit url, raise_exceptions = false
@@ -20,11 +20,11 @@ module ShareCounts
         :selector => "data/children/data/score" 
     }
   end
-# 
-#   def self.reddit_with_permalink url, raise_exceptions = false
-#     ShareCounts::Reddit.info_for url, raise_exceptions
-#   end
-# 
+  
+  def self.reddit_with_permalink url, raise_exceptions = false
+    ShareCounts::Reddit.info_for url, raise_exceptions
+  end
+  
   def self.digg url, raise_exceptions = false
     try("digg", url, raise_exceptions) {
       extract_count from_json( "http://services.digg.com/2.0/story.getInfo", :links => url ), 
@@ -68,14 +68,14 @@ module ShareCounts
     }
   end
 
-#   def self.all url
-#     supported_networks.inject({}) { |r, c| r[c.to_sym] = ShareCounts.send(c, url); r }
-#   end
-# 
-#   def self.selected url, selections
-#     selections.map{|name| name.downcase}.select{|name| supported_networks.include? name.to_s}.inject({}) {
-#        |r, c| r[c.to_sym] = ShareCounts.send(c, url); r }
-#   end
-# 
+  def self.all url
+    supported_networks.inject({}) { |r, c| r[c.to_sym] = ShareCounts.send(c, url); r }
+  end
+  
+  def self.selected url, selections
+    selections.map{|name| name.downcase}.select{|name| supported_networks.include? name.to_s}.inject({}) {
+       |r, c| r[c.to_sym] = ShareCounts.send(c, url); r }
+  end
+  
 end
 
