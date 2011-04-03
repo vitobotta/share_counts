@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    share_counts (0.0.6)
+    share_counts (0.0.9)
+      SystemTimer
       json
       nokogiri
       redis
@@ -10,19 +11,24 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    ansi (1.2.2)
+    SystemTimer (1.2.3)
+    activesupport (3.0.5)
+    addressable (2.2.4)
+    crack (0.1.8)
     json (1.5.1)
     mime-types (1.16)
-    minitest (2.0.2)
     nokogiri (1.4.4)
-    redis (2.1.1)
+    redis (2.2.0)
     rest-client (1.6.1)
       mime-types (>= 1.16)
+    webmock (1.6.2)
+      addressable (>= 2.2.2)
+      crack (>= 0.1.7)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  ansi
-  minitest
+  activesupport
   share_counts!
+  webmock

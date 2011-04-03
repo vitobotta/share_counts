@@ -50,25 +50,26 @@ module ShareCounts
     def make_request *args
       result   = nil
       attempts = 1
+      url      = args.shift
+      params   = args.inject({}) { |r, c| r.merge! c }
 
       begin
-        timeout(5) do
-          url         = args.shift
-          params      = args.inject({}) { |r, c| r.merge! c }
-          response    = RestClient.get url,  { :params => params }
+        response    = RestClient.get url,  { :params => params, :timeout => 5 }
 
-
-          # if a callback is specified, the expected response is in the format "callback_name(JSON data)";
-          # with the response ending with ";" and, in some cases, "\n"
-          result = params.keys.include?(:callback) \
-            ? response.gsub(/^(.*);+\n*$/, "\\1").gsub(/^#{params[:callback]}\((.*)\)$/, "\\1") \
-            : response
-        end
+        # if a callback is specified, the expected response is in the format "callback_name(JSON data)";
+        # with the response ending with ";" and, in some cases, "\n"
+        result = params.keys.include?(:callback) \
+          ? response.gsub(/^(.*);+\n*$/, "\\1").gsub(/^#{params[:callback]}\((.*)\)$/, "\\1") \
+          : response
 
       rescue Exception => e
-        puts "Failed #{attempts} attempt(s)"
+        puts "Failed #{attempts} attempt(s) - #{e}"
         attempts += 1
-        retry if attempts <= 3
+        if attempts <= 3
+          retry 
+        else
+          raise Exception
+        end
       end
 
       result

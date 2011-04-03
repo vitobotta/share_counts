@@ -1,0 +1,4 @@
+require "autotest/fsevent"
+require "autotest/restart"
+require "redgreen/autotest"
+
