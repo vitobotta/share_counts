@@ -48,7 +48,7 @@ module ShareCounts
 
   def self.linkedin url, raise_exceptions = false 
     try("linkedin", url, raise_exceptions) {
-      extract_count from_json("http://www.linkedin.com/cws/share-count", 
+      extract_count from_json("http://www.linkedin.com/countserv/count/share", 
         :url => url, :callback => "IN.Tags.Share.handleCount" ), :selector => "count"
     }
   end
