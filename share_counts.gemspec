@@ -22,7 +22,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "autotest-growl"
   s.add_development_dependency "autotest-fsevent"
   s.add_development_dependency "redgreen"
-  
+  s.add_development_dependency "i18n"
+
   s.rubyforge_project = "share_counts"
 
   s.files         = `git ls-files`.split("\n")
