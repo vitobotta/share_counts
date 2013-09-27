@@ -11,7 +11,7 @@ Services currently supported:
 * Reddit
 * Digg
 * Twitter
-* Facebook (Share * Like)
+* Facebook
 * LinkedIn
 * Google Buzz
 * StumbleUpon
@@ -20,7 +20,8 @@ Services currently supported:
 == Installation
 
 Just..
-	gem install share_counts
+
+        gem install share_counts
 
 and then require/bundle it.
 
@@ -28,87 +29,78 @@ and then require/bundle it.
 
 You can check each service individually...
 
-	ruby-1.9.2-p0 :001 > require "share_counts"
-	 => true 
+        ruby-1.9.2-p0 :001 > require "share_counts"
+        => true 
 	
-	ruby-1.9.2-p0 :002 > url = "http://vitobotta.com/awesomeprint-similar-production/"
-	 => "http://vitobotta.com/awesomeprint-similar-production/" 
+        ruby-1.9.2-p0 :002 > url = "http://vitobotta.com/awesomeprint-similar-production/"
+        => "http://vitobotta.com/awesomeprint-similar-production/" 
 	
-	# Reddit
-	ruby-1.9.2-p0 :003 > ShareCounts.reddit url
-	 => 5 
+        # Reddit
+        ruby-1.9.2-p0 :003 > ShareCounts.reddit url
+        => 5 
 	
-	# Digg
-	ruby-1.9.2-p0 :004 > ShareCounts.digg url
-	 => 1 
+        # Digg
+        ruby-1.9.2-p0 :004 > ShareCounts.digg url
+        => 1 
 	
-	# Twitter
-	ruby-1.9.2-p0 :005 > ShareCounts.twitter url
-	 => 2 
+        # Twitter
+        ruby-1.9.2-p0 :005 > ShareCounts.twitter url
+        => 2 
 	
-	# Facebook shares
-	ruby-1.9.2-p0 :006 > ShareCounts.facebook url
-	 => 1 
+        # Facebook 
+        ruby-1.9.2-p0 :006 > ShareCounts.facebook url
+        => 1 
 	
-	# Facebook likes
-	ruby-1.9.2-p0 :007 > ShareCounts.fblike url
-	 => 0 
+        # LinkedIn
+        ruby-1.9.2-p0 :008 > ShareCounts.linkedin url
+        => 2 
 	
-	# LinkedIn
-	ruby-1.9.2-p0 :008 > ShareCounts.linkedin url
-	 => 2 
+        # StumbleUpon
+        ruby-1.9.2-p0 :009 > ShareCounts.stumbleupon url
+        => 0 
 	
-	# StumbleUpon
-	ruby-1.9.2-p0 :009 > ShareCounts.stumbleupon url
-	 => 0 
-	
-	# Google Buzz
-	ruby-1.9.2-p0 :010 > ShareCounts.googlebuzz url
-	 => 0 
+        # Google Buzz
+        ruby-1.9.2-p0 :010 > ShareCounts.googlebuzz url
+        => 0 
 
 
 or you can get 'em all in one shot:
 
-	ruby-1.9.2-p0 :017 > ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/"
-	 => {:reddit=>5, :digg=>1, :twitter=>2, :facebook=>1, :fblike=>0, :linkedin=>2, :googlebuzz=>0, :stumbleupon=>0}
+        ruby-1.9.2-p0 :017 > ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/"
+        => {:reddit=>5, :digg=>1, :twitter=>2, :facebook=>1, :linkedin=>2, :googlebuzz=>0, :stumbleupon=>0}
 
-
-Additionally, for Facebook you can get shares and likes at once:
-
-	ruby-1.9.2-p0 :018 > ShareCounts.fball "http://vitobotta.com/awesomeprint-similar-production/"
-	 => {"share_count"=>1, "like_count"=>0}
 
 
 You can also specify which networks you want to query at once:
 
-	ruby-1.9.2-p0 :004 > ShareCounts.selected "http://vitobotta.com/awesomeprint-similar-production/", [:reddit, :twitter]
-	 => {:reddit=>5, :twitter=>2}
+        ruby-1.9.2-p0 :004 > ShareCounts.selected "http://vitobotta.com/awesomeprint-similar-production/", [:reddit, :twitter]
+        => {:reddit=>5, :twitter=>2}
 	
 	 
 For Reddit, you can also 
 
 1) get both score and permalink for a given URL:
 
-  ruby-1.9.2-head :004 > ShareCounts.reddit_with_permalink "http://vitobotta.com/faster-internet-browsing-alternative-dns-servers-fast-local-cache-bind/"
-  Redis caching is disabled - Making request to reddit-details...
-   => {"score"=>22, "permalink"=>"/r/apple/comments/fmkxz/faster_internet_browsing_with_alternative_dns/"}
+        ruby-1.9.2-head :004 > ShareCounts.reddit_with_permalink "http://vitobotta.com/faster-internet-browsing-alternative-dns-servers-fast-local-cache-bind/"
+        Redis caching is disabled - Making request to reddit-details...
+        => {"score"=>22, "permalink"=>"/r/apple/comments/fmkxz/faster_internet_browsing_with_alternative_dns/"}
 
 2) get the share counts for all the known URLs from a given domain:
 
-  ruby-1.9.2-head :009 > ShareCounts::Reddit.by_domain "vitobotta.com"
-  Redis caching is disabled - Making request to reddit-domain...
+        ruby-1.9.2-head :009 > ShareCounts::Reddit.by_domain "vitobotta.com"
+        Redis caching is disabled - Making request to reddit-domain...
   
 
 Sometimes APIs may not be available or may be having issues (or there's some rate limit and you are making too many requests in a short time). When something goes wrong while querying a service, even for a max of 3 attempts, the share count for that service is left as set to nil. This way you can easily know whether a share count could be obtained or updated for a given URL, but simply checking if the share count is nil.
 
-	ruby-1.9.2-p0 :002 > ShareCounts.selected "http://vitobotta.com/awesomeprint-similar-production/", [:reddit, :twitter]
-	Making request to reddit...
-	Failed 1 attempt(s)
-	Failed 2 attempt(s)
-	Failed 3 attempt(s)
-	Something went wrong with reddit: can't convert nil into String
-	Making request to twitter...
-	 => {:reddit=>nil, :twitter=>2}
+        ruby-1.9.2-p0 :002 > ShareCounts.selected "http://vitobotta.com/awesomeprint-similar-production/", [:reddit, :twitter]
+        Making request to reddit...
+        Failed 1 attempt(s)
+        Failed 2 attempt(s)
+        Failed 3 attempt(s)
+        Something went wrong with reddit: can't convert nil into String
+        Making request to twitter...
+        => {:reddit=>nil, :twitter=>2}
 
 
 == Caching
@@ -117,49 +109,47 @@ Depending on how and in which kind of applications you may want to use this gem,
 
 It's very easy to enable and use the caching:
 
-	ruby-1.9.2-p0 :002 > require 'benchmark'
-	 => true 
+        ruby-1.9.2-p0 :002 > require 'benchmark'
+        => true 
 
-	# Enabling caching
-	ruby-1.9.2-p0 :003 > ShareCounts.use_cache
-	 => #<Redis client v2.1.1 connected to redis://127.0.0.1:6379/0 (Redis v2.0.3)> 
-
-
-	# First run, values are not cached
-	ruby-1.9.2-p0 :004 > Benchmark.realtime { ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/" }
-	Making request to reddit...
-	Making request to digg...
-	Making request to twitter...
-	Making request to facebook...
-	Making request to fblike...
-	Making request to linkedin...
-	Making request to googlebuzz...
-	Making request to stumbleupon...
-	 => 3.7037899494171143 
+        # Enabling caching
+        ruby-1.9.2-p0 :003 > ShareCounts.use_cache
+        => #<Redis client v2.1.1 connected to redis://127.0.0.1:6379/0 (Redis v2.0.3)> 
 
 
-	# Now values are cached
-	ruby-1.9.2-p0 :005 > Benchmark.realtime { ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/" }
-	Loaded reddit count from cache
-	Loaded digg count from cache
-	Loaded twitter count from cache
-	Loaded facebook count from cache
-	Loaded fblike count from cache
-	Loaded linkedin count from cache
-	Loaded googlebuzz count from cache
-	Loaded stumbleupon count from cache
-	 => 0.003225088119506836
+        # First run, values are not cached
+        ruby-1.9.2-p0 :004 > Benchmark.realtime { ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/" }
+        Making request to reddit...
+        Making request to digg...
+        Making request to twitter...
+        Making request to facebook...
+        Making request to linkedin...
+        Making request to googlebuzz...
+        Making request to stumbleupon...
+        => 3.7037899494171143 
+
+
+        # Now values are cached
+        ruby-1.9.2-p0 :005 > Benchmark.realtime { ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/" }
+        Loaded reddit count from cache
+        Loaded digg count from cache
+        Loaded twitter count from cache
+        Loaded facebook count from cache
+        Loaded linkedin count from cache
+        Loaded googlebuzz count from cache
+        Loaded stumbleupon count from cache
+        => 0.003225088119506836
 
 
 By default, the gem connects to the Redis store listening on 127.0.0.1:6379, but you can override these settings when you enable the caching:
 
-	ruby-1.9.2-p0 :002 > ShareCounts.use_cache :host => "192.168.10.85", :port => 7500
-	 => #<Redis client v2.1.1 connected to redis://192.168.10.85:7500/0 (Redis v2.0.3)>	
+        ruby-1.9.2-p0 :002 > ShareCounts.use_cache :host => "192.168.10.85", :port => 7500
+        => #<Redis client v2.1.1 connected to redis://192.168.10.85:7500/0 (Redis v2.0.3)>	
 
 Or, if you are already using the "redis" gem in your application and therefore already have initialised a connection to the Redis store, you can either pass the reference to that instance:
 
-	ruby-1.9.2-p0 :003 > ShareCounts.use_cache :redis_store => YOUR_REFERENCE_TO_REDIS_STORE
-	 => #<Redis client v2.1.1 connected to redis://127.0.0.1:6379/0 (Redis v2.0.3)>
+        ruby-1.9.2-p0 :003 > ShareCounts.use_cache :redis_store => YOUR_REFERENCE_TO_REDIS_STORE
+        => #<Redis client v2.1.1 connected to redis://127.0.0.1:6379/0 (Redis v2.0.3)>
 
 or just set the global variable $share_counts_cache to that reference.
 
@@ -167,23 +157,18 @@ Similarly, by default cached share counts expire in two minutes, but you can ove
 
 You can also get an hash having all the cached URLs with their share counts:
 
-	ruby-1.9.2-p0 :009 > ShareCounts.cached
-	 => {"http://vitobotta.com/awesomeprint-similar-production/"=>{:fblike=>0, :stumbleupon=>0, :linkedin=>2, :googlebuzz=>0, :facebook=>1, :twitter=>2, :digg=>1, :reddit=>5}}
+        ruby-1.9.2-p0 :009 > ShareCounts.cached
+        => {"http://vitobotta.com/awesomeprint-similar-production/"=>{:stumbleupon=>0, :linkedin=>2, :googlebuzz=>0, :facebook=>1, :twitter=>2, :digg=>1, :reddit=>5}}
 
 
 And, if needed, your can clear the cached values:
 
-	ruby-1.9.2-p0 :010 > ShareCounts.clear_cache
-	 => ["ShareCounts||fblike||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||stumbleupon||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||linkedin||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||googlebuzz||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||facebook||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||twitter||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||digg||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||reddit||http://vitobotta.com/awesomeprint-similar-production/"] 
-	ruby-1.9.2-p0 :011 > ShareCounts.cached
-	 => {
+        ruby-1.9.2-p0 :010 > ShareCounts.clear_cache
+         => ["ShareCounts||stumbleupon||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||linkedin||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||googlebuzz||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||facebook||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||twitter||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||digg||http://vitobotta.com/awesomeprint-similar-production/", "ShareCounts||reddit||http://vitobotta.com/awesomeprint-similar-production/"] 
+        ruby-1.9.2-p0 :011 > ShareCounts.cached
+         => {
 
 However the gem will namespace all the keys as you can see, in case you also use Redis for something else in the same app.
-
-== TODO
-
-* specs
-
 
 == Authors
 
