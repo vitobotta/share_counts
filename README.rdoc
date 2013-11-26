@@ -28,66 +28,66 @@ and then require/bundle it.
 
 You can check each service individually...
 
-	ruby-1.9.2-p0 :001 > require "share_counts"
-	 => true 
-	
-	ruby-1.9.2-p0 :002 > url = "http://vitobotta.com/awesomeprint-similar-production/"
-	 => "http://vitobotta.com/awesomeprint-similar-production/" 
-	
-	# Reddit
-	ruby-1.9.2-p0 :003 > ShareCounts.reddit url
-	 => 5 
-	
-	# Digg
-	ruby-1.9.2-p0 :004 > ShareCounts.digg url
-	 => 1 
-	
-	# Twitter
-	ruby-1.9.2-p0 :005 > ShareCounts.twitter url
-	 => 2 
-	
-	# Facebook 
-	ruby-1.9.2-p0 :006 > ShareCounts.facebook url
-	 => 1 
-	
-	# LinkedIn
-	ruby-1.9.2-p0 :008 > ShareCounts.linkedin url
-	 => 2 
-	
-	# StumbleUpon
-	ruby-1.9.2-p0 :009 > ShareCounts.stumbleupon url
-	 => 0 
-	
-	# Google Buzz
-	ruby-1.9.2-p0 :010 > ShareCounts.googlebuzz url
-	 => 0 
+    ruby-1.9.2-p0 :001 > require "share_counts"
+    => true 
+    
+    ruby-1.9.2-p0 :002 > url = "http://vitobotta.com/awesomeprint-similar-production/"
+    => "http://vitobotta.com/awesomeprint-similar-production/" 
+    
+    # Reddit
+    ruby-1.9.2-p0 :003 > ShareCounts.reddit url
+    => 5 
+    
+    # Digg
+    ruby-1.9.2-p0 :004 > ShareCounts.digg url
+    => 1 
+    
+    # Twitter
+    ruby-1.9.2-p0 :005 > ShareCounts.twitter url
+    => 2 
+    
+    # Facebook 
+    ruby-1.9.2-p0 :006 > ShareCounts.facebook url
+    => 1 
+    
+    # LinkedIn
+    ruby-1.9.2-p0 :008 > ShareCounts.linkedin url
+    => 2 
+    
+    # StumbleUpon
+    ruby-1.9.2-p0 :009 > ShareCounts.stumbleupon url
+    => 0 
+    
+    # Google Buzz
+    ruby-1.9.2-p0 :010 > ShareCounts.googlebuzz url
+    => 0 
 
 
 or you can get 'em all in one shot:
 
-	ruby-1.9.2-p0 :017 > ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/"
-	 => {:reddit=>5, :digg=>1, :twitter=>2, :facebook=>1, :linkedin=>2, :googlebuzz=>0, :stumbleupon=>0}
+    ruby-1.9.2-p0 :017 > ShareCounts.all "http://vitobotta.com/awesomeprint-similar-production/"
+    => {:reddit=>5, :digg=>1, :twitter=>2, :facebook=>1, :linkedin=>2, :googlebuzz=>0, :stumbleupon=>0}
 
 
 
 You can also specify which networks you want to query at once:
 
-	ruby-1.9.2-p0 :004 > ShareCounts.selected "http://vitobotta.com/awesomeprint-similar-production/", [:reddit, :twitter]
-	 => {:reddit=>5, :twitter=>2}
+    ruby-1.9.2-p0 :004 > ShareCounts.selected "http://vitobotta.com/awesomeprint-similar-production/", [:reddit, :twitter]
+    => {:reddit=>5, :twitter=>2}
 	
 	 
 For Reddit, you can also 
 
 1) get both score and permalink for a given URL:
 
-  ruby-1.9.2-head :004 > ShareCounts.reddit_with_permalink "http://vitobotta.com/faster-internet-browsing-alternative-dns-servers-fast-local-cache-bind/"
-  Redis caching is disabled - Making request to reddit-details...
-   => {"score"=>22, "permalink"=>"/r/apple/comments/fmkxz/faster_internet_browsing_with_alternative_dns/"}
+    ruby-1.9.2-head :004 > ShareCounts.reddit_with_permalink "http://vitobotta.com/faster-internet-browsing-alternative-dns-servers-fast-local-cache-bind/"
+    Redis caching is disabled - Making request to reddit-details...
+    => {"score"=>22, "permalink"=>"/r/apple/comments/fmkxz/faster_internet_browsing_with_alternative_dns/"}
 
 2) get the share counts for all the known URLs from a given domain:
 
-  ruby-1.9.2-head :009 > ShareCounts::Reddit.by_domain "vitobotta.com"
-  Redis caching is disabled - Making request to reddit-domain...
+    ruby-1.9.2-head :009 > ShareCounts::Reddit.by_domain "vitobotta.com"
+    Redis caching is disabled - Making request to reddit-domain...
   
 
 Sometimes APIs may not be available or may be having issues (or there's some rate limit and you are making too many requests in a short time). When something goes wrong while querying a service, even for a max of 3 attempts, the share count for that service is left as set to nil. This way you can easily know whether a share count could be obtained or updated for a given URL, but simply checking if the share count is nil.
