@@ -7,7 +7,13 @@ describe ShareCounts do
 
   describe "#reddit_count" do
     it "returns the count of shares on Reddit" do
-      sc.reddit_count.should == 7
+      # NOTE: actual web request....
+      sc.reddit_count.should == 5
+
+      # NOTE: ...and ensuring the return value is not hardcoded by mistake
+      RestClient.stub(:get)
+      JSON.should_receive(:parse).and_return({ "data" => { "children" => [{ "data" => { "score" => 14 } }] } })
+      sc.reddit_count.should == 14
     end
   end
 end
