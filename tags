@@ -1,0 +1,47 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Caching	lib/share_counts/caching.rb	/^  module Caching$/;"	m	class:ShareCounts
+Common	lib/share_counts/common.rb	/^  module Common$/;"	m	class:ShareCounts
+MiniTest	spec/_test_helper.rb	/^class MiniTest::Unit$/;"	c
+Reddit	lib/share_counts/reddit.rb	/^  module Reddit$/;"	m	class:ShareCounts
+ShareCounts	lib/share_counts.rb	/^module ShareCounts$/;"	m
+ShareCounts	lib/share_counts/caching.rb	/^module ShareCounts$/;"	m
+ShareCounts	lib/share_counts/common.rb	/^module ShareCounts$/;"	m
+ShareCounts	lib/share_counts/reddit.rb	/^module ShareCounts$/;"	m
+TestCase	spec/_test_helper.rb	/^  class TestCase$/;"	c
+all	lib/share_counts.rb	/^  def self.all url$/;"	F	class:ShareCounts
+by_domain	lib/share_counts/reddit.rb	/^    def self.by_domain domain$/;"	F	class:ShareCounts.Reddit
+cache_enabled?	lib/share_counts/caching.rb	/^    def cache_enabled?$/;"	f	class:ShareCounts.Caching
+cached	lib/share_counts/caching.rb	/^    def cached$/;"	f	class:ShareCounts.Caching
+clear_cache	lib/share_counts/caching.rb	/^    def clear_cache$/;"	f	class:ShareCounts.Caching
+digg	lib/share_counts.rb	/^  def self.digg url$/;"	F	class:ShareCounts
+extract_count	lib/share_counts.rb	/^  def self.extract_count *args$/;"	F	class:ShareCounts
+extract_info	lib/share_counts/common.rb	/^    def extract_info *args$/;"	f	class:ShareCounts.Common
+facebook	lib/share_counts.rb	/^  def self.facebook url$/;"	F	class:ShareCounts
+fball	lib/share_counts.rb	/^  def self.fball url $/;"	F	class:ShareCounts
+fblike	lib/share_counts.rb	/^  def self.fblike url$/;"	F	class:ShareCounts
+from_json	lib/share_counts/common.rb	/^    def from_json *args$/;"	f	class:ShareCounts.Common
+from_redis	lib/share_counts/caching.rb	/^    def from_redis(cache_key)$/;"	f	class:ShareCounts.Caching
+googlebuzz	lib/share_counts.rb	/^  def self.googlebuzz url $/;"	F	class:ShareCounts
+info_for	lib/share_counts/reddit.rb	/^    def self.info_for url $/;"	F	class:ShareCounts.Reddit
+linkedin	lib/share_counts.rb	/^  def self.linkedin url $/;"	F	class:ShareCounts
+make_request	lib/share_counts/common.rb	/^    def make_request *args$/;"	f	class:ShareCounts.Common
+pad	spec/_test_helper.rb	/^  def pad(str, size=PADDING_SIZE)$/;"	f
+pad_with_size	spec/_test_helper.rb	/^  def pad_with_size(str)$/;"	f
+puke	spec/_test_helper.rb	/^  def puke(klass, meth, e)$/;"	f
+reddit	lib/share_counts.rb	/^  def self.reddit url$/;"	F	class:ShareCounts
+reddit_with_permalink	lib/share_counts.rb	/^  def self.reddit_with_permalink url$/;"	F	class:ShareCounts
+run	spec/_test_helper.rb	/^    def run(runner)$/;"	f	class:TestCase
+run	spec/_test_helper.rb	/^  def run(args = [])$/;"	f	class:MiniTest
+run_test_suites	spec/_test_helper.rb	/^  def run_test_suites(filter = \/.\/)$/;"	f
+selected	lib/share_counts.rb	/^  def self.selected url, selections$/;"	F	class:ShareCounts
+stumbleupon	lib/share_counts.rb	/^  def self.stumbleupon url $/;"	F	class:ShareCounts
+supported_networks	lib/share_counts.rb	/^  def self.supported_networks$/;"	F	class:ShareCounts
+to_redis	lib/share_counts/caching.rb	/^    def to_redis(cache_key, value)$/;"	f	class:ShareCounts.Caching
+try	lib/share_counts/common.rb	/^    def try service, url, &block$/;"	f	class:ShareCounts.Common
+twitter	lib/share_counts.rb	/^  def self.twitter url$/;"	F	class:ShareCounts
+use_cache	lib/share_counts/caching.rb	/^    def use_cache *args$/;"	f	class:ShareCounts.Caching
