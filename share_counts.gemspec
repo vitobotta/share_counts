@@ -17,8 +17,11 @@ Gem::Specification.new do |s|
   s.add_dependency "nokogiri"
   s.add_dependency "redis"
 
-  s.add_development_dependency "minitest"
-  s.add_development_dependency "ansi"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "vcr"
+  s.add_development_dependency "rspec-spies"
+  # s.add_development_dependency "minitest"
+  # s.add_development_dependency "ansi"
   
   s.rubyforge_project = "share_counts"
 

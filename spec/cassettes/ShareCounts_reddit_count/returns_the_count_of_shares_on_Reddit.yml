@@ -1,0 +1,66 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.reddit.com/api/info.json?url=http://vitobotta.com/awesomeprint-similar-production/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: !binary |-
+        T0s=
+    headers:
+      !binary "Q29udGVudC1UeXBl":
+      - !binary |-
+        YXBwbGljYXRpb24vanNvbjsgY2hhcnNldD1VVEYtOA==
+      !binary "WC1GcmFtZS1PcHRpb25z":
+      - !binary |-
+        U0FNRU9SSUdJTg==
+      !binary "QWNjZXNzLUNvbnRyb2wtQWxsb3ctT3JpZ2lu":
+      - !binary |-
+        Kg==
+      !binary "VmFyeQ==":
+      - !binary |-
+        YWNjZXB0LWVuY29kaW5n
+      !binary "Q29udGVudC1FbmNvZGluZw==":
+      - !binary |-
+        Z3ppcA==
+      !binary "Q29udGVudC1MZW5ndGg=":
+      - !binary |-
+        NTIy
+      !binary "U2VydmVy":
+      - !binary |-
+        JzsgRFJPUCBUQUJMRSBzZXJ2ZXJ0eXBlczsgLS0=
+      !binary "RGF0ZQ==":
+      - !binary |-
+        U3VuLCAwNSBKYW4gMjAxNCAxMjo1OTo1MiBHTVQ=
+      !binary "Q29ubmVjdGlvbg==":
+      - !binary |-
+        a2VlcC1hbGl2ZQ==
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAEhXyVIC/3VUy27bMBD8FUKnBmiiyk3rNN/Qew9FQVAkFS7Mh0Iu7RqG
+        /71cSrYlozly9jE7syudmh141byy5ickBP/WfGaNEigKdGpcUEYkQ2HCpQGr
+        ovbl/ft0LcSvqxoVnABKafaAoQ+I4kkGRzm98F4r3h9L1GdrC+S0AsG16zX1
+        Op0LlHIftVKA1CPmkk2gtgPqv8gNOnsrv8CXCS3sdFqGZY6aV5IbasHv+GAF
+        RD7XzgGoegax2T1PnLfq9YjSgtzV5yBs0pSLBYEVJDKaEKtDMSccsle9mNTc
+        DZRkiLo8t1Q1jjHs71wqQOTdy6K5AaXqIi4Amux6L4DMqVZcbeSTLPzGN+9m
+        01Gs0ONq1oUlMiUurUgLGyclH8dVOHh6dkQr9qvOkDgtaYGMOjpBhDRVG1ta
+        cVsuxGmPqa3utwdz5MeQeTIhW8XR0Hx4AKl5r4fiFs+pHCsXB52C0y2J8sKR
+        ieUe+XWFMmoxKe02P753z5tuu336UgI5VqMM4vjatqtLbeemYwSPjwkcWBEf
+        y1ZUlgjBV7KVJesrQkBbB/lljqyIYJMIVkWwKoJNIlgVwWY+XgnZJ+EVm1nZ
+        m3bpgYFnN/qFLJ5R/kfaSLt4IUey4xdjC0TBPaS71VNS1GOINeey0elnkCGZ
+        mkzw+fyHhJfvjY56TpyEXDP+AT8b4B9PBAAA
+    http_version: 
+  recorded_at: Sun, 05 Jan 2014 12:59:51 GMT
+recorded_with: VCR 2.5.0
